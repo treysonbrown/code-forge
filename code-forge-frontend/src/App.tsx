@@ -1,9 +1,7 @@
-import './App.css'
-
 function App() {
 
 	return (
-		<h1>Code Forge</h1>
+		<h1 className="text-4xl">Code Forge</h1>
 	)
 }
 
