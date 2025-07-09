@@ -29,7 +29,7 @@ const Menu = () => {
 						<Link to="/" className={linkStyle}>Home</Link>
 					</li>
 					<li>
-						<Link to="/practiedfeed" className={linkStyle}>Practie Feed</Link>
+						<Link to="/practicefeed" className={linkStyle}>Practie Feed</Link>
 					</li>
 					<li>
 						<Link to="/projectsharing" className={linkStyle}>Project Sharing</Link>

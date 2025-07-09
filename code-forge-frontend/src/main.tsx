@@ -24,7 +24,7 @@ createRoot(document.getElementById('root')!).render(
 					<Route path="stats" element={<PersonalStats />} />
 					<Route path="profile" element={<Profile />} />
 					<Route path="projectsharing" element={<ProjectSharing />} />
-					<Route path="problem" element={<PracticeFeed />} />
+					<Route path="practicefeed" element={<PracticeFeed />} />
 
 				</Route>
 			</Routes>
