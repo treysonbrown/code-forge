@@ -5,10 +5,13 @@ function App() {
 
 	return (
 		<>
-			<Navbar />
-			<main>
-				<Outlet />
-			</main>
+			<div className="bg-primary">
+				<Navbar />
+				<main>
+					<Outlet />
+				</main>
+			</div>
+
 		</>
 
 	)

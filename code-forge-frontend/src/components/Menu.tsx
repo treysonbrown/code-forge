@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
+const linkStyle: string = "text-white"
+
 const Menu = () => {
 
-	const [hidden, setHidden] = useState("");
+	const [hidden, setHidden] = useState("hidden");
 
 	const hiddenChange = () => {
 		if (hidden == "hidden") {
@@ -21,28 +23,28 @@ const Menu = () => {
 				</svg>
 			</button>
 
-			<div className={`${hidden} z-1010`} id="navbar-hamburger">
+			<div className={`${hidden} z-1010 flex center-items`} id="navbar-hamburger">
 				<ul className="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
 					<li>
-						<Link to="/">Home</Link>
+						<Link to="/" className={linkStyle}>Home</Link>
 					</li>
 					<li>
-						<Link to="/practiedfeed">Practie Feed</Link>
+						<Link to="/practiedfeed" className={linkStyle}>Practie Feed</Link>
 					</li>
 					<li>
-						<Link to="/projectsharing">Project Sharing</Link>
+						<Link to="/projectsharing" className={linkStyle}>Project Sharing</Link>
 					</li>
 					<li>
-						<Link to="/resources">Helpful Resources</Link>
+						<Link to="/resources" className={linkStyle}>Helpful Resources</Link>
 					</li>
 					<li>
-						<Link to="/stats">Personal Stats</Link>
+						<Link to="/stats" className={linkStyle}>Personal Stats</Link>
 					</li>
 					<li>
-						<Link to="/leaderboard">Leaderboard</Link>
+						<Link to="/leaderboard" className={linkStyle}>Leaderboard</Link>
 					</li>
 					<li>
-						<Link to="/profile">Profile</Link>
+						<Link to="/profile" className={linkStyle}>Profile</Link>
 					</li>
 				</ul>
 			</div>

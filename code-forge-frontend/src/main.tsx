@@ -10,6 +10,7 @@ import Leaderboard from './pages/Leaderboard.tsx'
 import PersonalStats from './pages/PersonalStats.tsx'
 import Profile from './pages/Profile.tsx'
 import ProjectSharing from './pages/ProjectSharing.tsx'
+import PracticeFeed from './pages/PracticeFeed.tsx'
 
 createRoot(document.getElementById('root')!).render(
 	<StrictMode>
@@ -23,6 +24,7 @@ createRoot(document.getElementById('root')!).render(
 					<Route path="stats" element={<PersonalStats />} />
 					<Route path="profile" element={<Profile />} />
 					<Route path="projectsharing" element={<ProjectSharing />} />
+					<Route path="problem" element={<PracticeFeed />} />
 
 				</Route>
 			</Routes>
