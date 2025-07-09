@@ -1,6 +1,8 @@
 const Leaderboard = () => {
 	return (
-		<h1 className="pt-33">Leaderboard</h1>
+		<div>
+			<h1 className="flex justify-center mt-30 text-white  md:text-3xl lg:text-4xl font-bold">LEADERBOARD</h1>
+		</div>
 	)
 }
 export default Leaderboard;
