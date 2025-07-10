@@ -1,6 +1,9 @@
+import Header from "../components/Header";
+
 const HelpfulResources = () => {
 	return (
-		<h1 className="pt-33">HelpfulResources</h1>
+		<Header whiteText="HELPFUL" blueText="RESOURCES" />
 	)
+
 }
 export default HelpfulResources;

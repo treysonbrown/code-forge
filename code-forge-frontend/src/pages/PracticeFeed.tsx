@@ -1,4 +1,5 @@
 import Footer from "../components/Footer";
+import Header from "../components/Header";
 import ProblemCard from "../components/ProblemCard";
 
 const practiceFeedDesc: string = "Select a problem that aligns with your interests and skill level. Detailed instructions are provided within each problem."
@@ -27,10 +28,7 @@ const problems: Problems[] = [
 const PracticeFeed: React.FC = () => {
 	return (
 		<div className="flex justify-center flex-col">
-			<div className="flex justify-center mt-40 gap-2">
-				<h1 className="font-alegreya  text-3xl md:text-5xl lg:text-6xl text-white font-bold ">PRACTICE</h1>
-				<h1 className="font-alegreya  text-3xl md:text-5xl lg:text-6xl text-accent font-bold ">FEED</h1>
-			</div>
+			<Header whiteText="PRACTICE" blueText="FEED" />
 			<p className="flex text-center ml-[20%] mr-[20%] align-items text-white m-15 font-alegreya md:text-xl lg:text-2xl">{practiceFeedDesc}</p>
 
 			<div className="ml-[5%] mr-[5%]">

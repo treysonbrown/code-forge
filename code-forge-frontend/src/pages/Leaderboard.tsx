@@ -1,4 +1,5 @@
 import RunnerUp from "../components/RunnerUp";
+import WhiteHeader from "../components/WhiteHeader";
 
 type RunnerUp = {
 	place: number;
@@ -20,7 +21,7 @@ const Leaderboard = () => {
 
 	return (
 		<div className="flex flex-col" >
-			<h1 className="flex justify-center mt-30 text-white text-3xl md:text-5xl lg:text-6xl font-bold">LEADERBOARD</h1>
+			<WhiteHeader text="LEADERBOARD" />
 			<div className="flex justify-center">
 				<img src="../../src/assets/Podium.svg" className="flex justify-center mt-20 w-[40%]" />
 			</div>

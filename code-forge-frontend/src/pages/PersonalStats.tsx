@@ -1,6 +1,10 @@
+import Header from "../components/Header";
+
 const PersonalStats = () => {
 	return (
-		<h1 className="pt-33">PersonalStats</h1>
+		<div>
+			<Header whiteText="PERSONAL" blueText="STATS" />
+		</div>
 	)
 }
 export default PersonalStats;
