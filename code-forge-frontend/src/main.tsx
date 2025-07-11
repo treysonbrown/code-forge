@@ -11,6 +11,8 @@ import PersonalStats from './pages/PersonalStats.tsx'
 import Profile from './pages/Profile.tsx'
 import ProjectSharing from './pages/ProjectSharing.tsx'
 import PracticeFeed from './pages/PracticeFeed.tsx'
+import About from './pages/About.tsx'
+import NotFound from './pages/NotFound.tsx'
 
 createRoot(document.getElementById('root')!).render(
 	<StrictMode>
@@ -25,6 +27,8 @@ createRoot(document.getElementById('root')!).render(
 					<Route path="profile" element={<Profile />} />
 					<Route path="projectsharing" element={<ProjectSharing />} />
 					<Route path="practicefeed" element={<PracticeFeed />} />
+					<Route path="about" element={<About />} />
+					<Route path="*" element={<NotFound />} />
 
 				</Route>
 			</Routes>

@@ -4,15 +4,13 @@ import WhiteHeader from "./WhiteHeader";
 type HeaderProps = {
 	whiteText: string;
 	blueText: string;
-	textSize: number;
-
 }
 
-const Header: React.FC<HeaderProps> = ({ whiteText, blueText, textSize }) => {
+const Header: React.FC<HeaderProps> = ({ whiteText, blueText }) => {
 	return (
 		<div className="flex justify-center gap-3">
-			<WhiteHeader text={whiteText} textSize={textSize} />
-			<BlueHeader text={blueText} textSize={textSize} />
+			<WhiteHeader text={whiteText} />
+			<BlueHeader text={blueText} />
 		</div>
 	)
 }
