@@ -1,6 +1,3 @@
-import { FaGithub } from "react-icons/fa";
-
-
 const Footer = () => {
 	return (
 		<div className="bg-secondary p-10">
@@ -13,9 +10,8 @@ const Footer = () => {
 
 				<div className="flex flex-col">
 					<h1 className="font-alegreya sm:text-[30px] md:text-[50px] lg:text-[60px] text-accent underline mt-10" >Social</h1>
-					<div className="flex justify-center">
-						<FaGithub color="white" />
-						<p className="text-white text-[5px] md:text-[10px] lg:text-[20px]">github.com/treslechesen</p>
+					<div className="flex justify-center align-items">
+						<a className="text-white text-[5px] md:text-[10px] lg:text-[20px]" href="https://github.com/treslecheson">github.com/treslechesen</a>
 					</div>
 				</div>
 			</div>

@@ -11,6 +11,7 @@ const PersonalStats = () => {
 				<SubWhiteHeader text="DAYS" />
 				<SubWhiteHeader text="POINTS" />
 				<SubHeader whiteText="QUESTIONS" blueText="ANSWERED" />
+				<SubWhiteHeader text="BADGES" />
 			</div>
 		</div>
 	)
