@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 const linkStyle: string = "text-white"
@@ -7,6 +7,8 @@ const Menu = () => {
 
 	const [hidden, setHidden] = useState("hidden");
 
+	let menuRef = useRef(null)
+
 	const hiddenChange = () => {
 		if (hidden == "hidden") {
 			setHidden("")
@@ -14,8 +16,26 @@ const Menu = () => {
 			setHidden("hidden")
 		}
 	}
+
+
+
+	useEffect(() => {
+		const handler = (e: MouseEvent) => {
+			if (!menuRef.current?.contains(e.target)) {
+				setHidden("hidden")
+			}
+		}
+		document.addEventListener("mousedown", handler)
+		return () => {
+			document.removeEventListener("mousedown", handler)
+		}
+
+	}, []);
+
+
+
 	return (
-		<div>
+		<div ref={menuRef}>
 			<button data-collapse-toggle="navbar-hamburger" type="button" onClick={hiddenChange} className="inline-flex items-center justify-center p-2 w-10 h-10 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-hamburger" aria-expanded="false">
 				<span className="sr-only">Open main menu</span>
 				<svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
@@ -23,28 +43,28 @@ const Menu = () => {
 				</svg>
 			</button>
 
-			<div className={`${hidden} z-1010 flex center-items`} id="navbar-hamburger">
-				<ul className="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+			<div className={`${hidden} absolute top-15 right-0 z-1010 flex center-items `} id="navbar-hamburger">
+				<ul className="flex flex-col font-medium mt-4  bg-menu  p-10">
 					<li>
-						<Link to="/" className={linkStyle}>Home</Link>
+						<Link to="/" className={linkStyle} onClick={() => setHidden("hidden")}>Home</Link>
 					</li>
 					<li>
-						<Link to="/practicefeed" className={linkStyle}>Practie Feed</Link>
+						<Link to="/practicefeed" className={linkStyle} onClick={() => setHidden("hidden")}>Practie Feed</Link>
 					</li>
 					<li>
-						<Link to="/projectsharing" className={linkStyle}>Project Sharing</Link>
+						<Link to="/projectsharing" className={linkStyle} onClick={() => setHidden("hidden")}>Project Sharing</Link>
 					</li>
 					<li>
-						<Link to="/resources" className={linkStyle}>Helpful Resources</Link>
+						<Link to="/resources" className={linkStyle} onClick={() => setHidden("hidden")}>Helpful Resources</Link>
 					</li>
 					<li>
-						<Link to="/stats" className={linkStyle}>Personal Stats</Link>
+						<Link to="/stats" className={linkStyle} onClick={() => setHidden("hidden")}>Personal Stats</Link>
 					</li>
 					<li>
-						<Link to="/leaderboard" className={linkStyle}>Leaderboard</Link>
+						<Link to="/leaderboard" className={linkStyle} onClick={() => setHidden("hidden")}>Leaderboard</Link>
 					</li>
 					<li>
-						<Link to="/profile" className={linkStyle}>Profile</Link>
+						<Link to="/profile" className={linkStyle} onClick={() => setHidden("hidden")}>Profile</Link>
 					</li>
 				</ul>
 			</div>
