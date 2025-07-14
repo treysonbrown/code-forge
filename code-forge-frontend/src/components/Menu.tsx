@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
-const linkStyle: string = "text-white"
+const linkStyle: string = "text-white underline mt-30"
 
 const Menu = () => {
 
@@ -45,6 +45,7 @@ const Menu = () => {
 
 			<div className={`${hidden} absolute top-15 right-0 z-1010 flex center-items `} id="navbar-hamburger">
 				<ul className="flex flex-col font-medium mt-4  bg-menu  p-10">
+					<h1 className="flex justify-center  text-white text-1xl md:text-2xl lg:text-3xl font-bold underline">Menu</h1>
 					<li>
 						<Link to="/" className={linkStyle} onClick={() => setHidden("hidden")}>Home</Link>
 					</li>
