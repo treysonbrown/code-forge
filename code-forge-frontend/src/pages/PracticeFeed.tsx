@@ -15,18 +15,38 @@ type Problem = {
 	course_id: number;
 }
 
-const problems: Problem[] = [
+const supabase = supabaseClient
 
-];
 
 
 const PracticeFeed: React.FC = () => {
 	const [loading, setLoading] = useState<boolean>(false);
 	const [error, setError] = useState(null);
 	const [data, setData] = useState<Problem[]>([]);
+	const [userEmail, setUserEmail] = useState("")
 
 
 	useEffect(() => {
+
+		const fetchUser = async () => {
+			try {
+				const { data: { user }, error } = await supabase.auth.getUser();
+
+				if (error) {
+					console.log(error)
+				}
+
+				if (user) {
+					console.log(user.email)
+					setUserEmail(user.email!)
+				}
+			} catch (err) {
+				console.log('No')
+			}
+		}
+
+		fetchUser()
+
 		const fetchProblems = async () => {
 			setLoading(true)
 			const { data, error } = await supabaseClient
@@ -57,7 +77,6 @@ const PracticeFeed: React.FC = () => {
 					))}
 				</div>
 			</div>
-			<AddProblemComponent />
 			<div className="pt-4">
 				<Footer />
 			</div>

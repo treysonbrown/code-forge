@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { supabaseClient } from "../config/supabase-clients"
 
 type Problem = {
@@ -16,6 +17,7 @@ const newProblemData: Problem =
 }
 
 const AddProblemComponent = () => {
+
 
 	const AddProblem = async () => {
 		const { data, error } = await supabaseClient
