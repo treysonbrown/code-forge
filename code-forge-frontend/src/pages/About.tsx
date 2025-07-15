@@ -4,8 +4,12 @@ import Background from "../components/Background"
 import Footer from "../components/Footer";
 import SubBlueHeader from "../components/SubBlueHeader";
 
+
+
 const About = () => {
+
 	return (
+
 		<div>
 			<Background subText="" />
 			<div className="grid grid-cols-2 mr-[10%] ml-[10%] gap-10">

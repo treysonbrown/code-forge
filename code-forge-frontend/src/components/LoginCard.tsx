@@ -8,7 +8,7 @@ const supaURL = import.meta.env.VITE_SUPABASE_URL
 const supabase = createClient(supaURL, anonKey)
 
 
-const { data, error } = await supabase.auth.getSession()
+const { data } = await supabase.auth.getSession()
 
 const LoginCard = () => {
 
@@ -39,10 +39,6 @@ const LoginCard = () => {
 
 			</div>
 
-
-			{
-				console.log(data.session?.user.email)
-			}
 
 			<p>{data.session?.user.email}  </p>
 		</>

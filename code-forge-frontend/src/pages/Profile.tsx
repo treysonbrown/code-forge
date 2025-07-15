@@ -1,30 +1,31 @@
+import { useState, useEffect } from 'react'
 import { createClient } from '@supabase/supabase-js'
-import WhiteHeader from '../components/WhiteHeader'
-import SubWhiteHeader from '../components/SubWhiteHeader'
-
-const anonKey = import.meta.env.VITE_SUPABASE_KEY
-const supaURL = import.meta.env.VITE_SUPABASE_URL
-
-const supabase = createClient(supaURL, anonKey)
+import type { SessionData } from 'react-router-dom'
 
 
-const { data, error } = await supabase.auth.getSession()
+const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_KEY)
 
-const Profile = () => {
+export default function Profile() {
+	const [session, setSession] = useState<SessionData | null>(null)
 
-	return (
+	useEffect(() => {
+		supabase.auth.getSession().then(({ data: { session } }) => {
+			setSession(session)
+		})
 
-		<>
+		const {
+			data: { subscription },
+		} = supabase.auth.onAuthStateChange((_event, session) => {
+			setSession(session)
+		})
 
+		return () => subscription.unsubscribe()
+	}, [])
 
-			{
-				console.log(data.session?.user.email)
-			}
-
-			<SubWhiteHeader text={data.session?.user.email} || "Not logged in"/>
-		</>
-
-	)
+	if (!session) {
+		return (<div className='mt-40'>not logged in</div>)
+	}
+	else {
+		return (<div className='mt-40'>Logged in!</div>)
+	}
 }
-
-export default Profile;
