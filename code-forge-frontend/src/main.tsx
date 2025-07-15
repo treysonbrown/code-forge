@@ -13,25 +13,57 @@ import ProjectSharing from './pages/ProjectSharing.tsx'
 import PracticeFeed from './pages/PracticeFeed.tsx'
 import About from './pages/About.tsx'
 import NotFound from './pages/NotFound.tsx'
+import SignUpPage from './pages/SignUpPage.tsx'
+import { AuthProvider } from './hooks/Auth.tsx'
+import ProtectedRoute from './components/ProctedRoute.tsx'
+import RootLayout from './components/RootLayout.tsx'
 
 createRoot(document.getElementById('root')!).render(
 	<StrictMode>
 		<BrowserRouter>
-			<Routes>
-				<Route path="/" element={<App />}>
-					<Route index element={<Landing />} />
-					<Route path="login" element={<Login />} />
-					<Route path="resources" element={<HelpfulResources />} />
-					<Route path="leaderboard" element={<Leaderboard />} />
-					<Route path="stats" element={<PersonalStats />} />
-					<Route path="profile" element={<Profile />} />
-					<Route path="projectsharing" element={<ProjectSharing />} />
-					<Route path="practicefeed" element={<PracticeFeed />} />
-					<Route path="about" element={<About />} />
-					<Route path="*" element={<NotFound />} />
-
-				</Route>
-			</Routes>
+			<AuthProvider>
+				<RootLayout>
+					<Routes>
+						<Route path="/" element={<App />}>
+							<Route index element={<Landing />} />
+							<Route path="login" element={<Login />} />
+							<Route path="signup" element={<SignUpPage />} />
+							<Route path="resources" element={
+								<ProtectedRoute>
+									<HelpfulResources />
+								</ProtectedRoute>
+							} />
+							<Route path="leaderboard" element={
+								<ProtectedRoute>
+									<Leaderboard />
+								</ProtectedRoute>
+							} />
+							<Route path="stats" element={
+								<ProtectedRoute>
+									<PersonalStats />
+								</ProtectedRoute>
+							} />
+							<Route path="profile" element={
+								<ProtectedRoute>
+									<Profile />
+								</ProtectedRoute>
+							} />
+							<Route path="projectsharing" element={
+								<ProtectedRoute>
+									<ProjectSharing />
+								</ProtectedRoute>
+							} />
+							<Route path="practicefeed" element={
+								<ProtectedRoute>
+									<PracticeFeed />
+								</ProtectedRoute>
+							} />
+							<Route path="about" element={<About />} />
+							<Route path="*" element={<NotFound />} />
+						</Route>
+					</Routes>
+				</RootLayout>
+			</AuthProvider>
 		</BrowserRouter>
 	</StrictMode>,
 )

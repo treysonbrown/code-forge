@@ -1,7 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { createClient } from '@supabase/supabase-js'
 
 const linkStyle: string = "text-white underline mt-30"
+
+const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_KEY)
 
 const Menu = () => {
 
@@ -35,6 +38,7 @@ const Menu = () => {
 
 
 	return (
+
 		<div ref={menuRef}>
 			<button data-collapse-toggle="navbar-hamburger" type="button" onClick={hiddenChange} className="inline-flex items-center justify-center p-2 w-10 h-10 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-hamburger" aria-expanded="false">
 				<span className="sr-only">Open main menu</span>
@@ -66,6 +70,9 @@ const Menu = () => {
 					</li>
 					<li>
 						<Link to="/profile" className={linkStyle} onClick={() => setHidden("hidden")}>Profile</Link>
+					</li>
+					<li>
+						<button className="text-white underline mt-0" onClick={() => supabase.auth.signOut()}>Log out</button>
 					</li>
 				</ul>
 			</div>

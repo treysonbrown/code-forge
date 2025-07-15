@@ -1,31 +1,50 @@
+import { useEffect, useState } from "react";
+import AddProblemComponent from "../components/AddProblem";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import ProblemCard from "../components/ProblemCard";
+import { supabaseClient } from "../config/supabase-clients";
 
 const practiceFeedDesc: string = "Select a problem that aligns with your interests and skill level. Detailed instructions are provided within each problem."
 
-type Problems = {
-	title: string;
+type Problem = {
+	question: string;
+	description: string;
+	answers: string;
 	difficulty: string;
+	course_id: number;
 }
 
-const problems: Problems[] = [
-	{ title: "TWO SUM", difficulty: "EASY" },
-	{ title: "REVERSE LINKED LIST", difficulty: "EASY" },
-	{ title: "VALID PALINDROME", difficulty: "EASY" },
-	{ title: "MERGE TWO SORTED LISTS", difficulty: "EASY" },
-	{ title: "LONGEST SUBSTRING WITHOUT REPEATING CHARACTERS", difficulty: "MEDIUM" },
-	{ title: "GROUP ANAGRAMS", difficulty: "MEDIUM" },
-	{ title: "BINARY TREE ZIGZAG LEVEL ORDER TRAVERSAL", difficulty: "MEDIUM" },
-	{ title: "MAXIMUM SUBARRAY", difficulty: "MEDIUM" },
-	{ title: "WORD LADDER", difficulty: "HARD" },
-	{ title: "MERGE K SORTED LISTS", difficulty: "HARD" },
-	{ title: "N QUEENS", difficulty: "HARD" },
-	{ title: "REGULAR EXPRESSION MATCHING", difficulty: "HARD" }
+const problems: Problem[] = [
+
 ];
 
 
 const PracticeFeed: React.FC = () => {
+	const [loading, setLoading] = useState<boolean>(false);
+	const [error, setError] = useState(null);
+	const [data, setData] = useState<Problem[]>([]);
+
+
+	useEffect(() => {
+		const fetchProblems = async () => {
+			setLoading(true)
+			const { data, error } = await supabaseClient
+				.from('problem')
+				.select('*')
+
+			if (error) {
+				console.log(error)
+			} else {
+				console.log(data)
+				setData(data)
+				setError(null)
+				setLoading(false)
+			}
+		}
+		fetchProblems()
+	}, [])
+
 	return (
 		<div className="flex justify-center flex-col">
 			<Header whiteText="PRACTICE" blueText="FEED" />
@@ -33,11 +52,12 @@ const PracticeFeed: React.FC = () => {
 
 			<div className="ml-[5%] mr-[5%]">
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-					{problems.map((problem) => (
-						<ProblemCard title={problem.title} diffuculty={problem.difficulty} />
+					{data.map((problem) => (
+						<ProblemCard title={problem.question} diffuculty={problem.difficulty} />
 					))}
 				</div>
 			</div>
+			<AddProblemComponent />
 			<div className="pt-4">
 				<Footer />
 			</div>

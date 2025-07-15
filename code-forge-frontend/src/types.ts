@@ -9,3 +9,10 @@ export type RunnerUpProps = {
 	username: string;
 	bgColor: string;
 }
+
+export type Problem = {
+	question: string;
+	description: string;
+	answers: string;
+	course_id: number;
+}
