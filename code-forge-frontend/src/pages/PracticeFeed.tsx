@@ -4,6 +4,7 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import ProblemCard from "../components/ProblemCard";
 import { supabaseClient } from "../config/supabase-clients";
+import ProblemModal from "../components/ProblemModal";
 
 const practiceFeedDesc: string = "Select a problem that aligns with your interests and skill level. Detailed instructions are provided within each problem."
 
@@ -77,6 +78,7 @@ const PracticeFeed: React.FC = () => {
 					))}
 				</div>
 			</div>
+			<ProblemModal />
 			<div className="pt-4">
 				<Footer />
 			</div>

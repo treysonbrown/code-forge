@@ -6,6 +6,21 @@ const linkStyle: string = "text-white underline mt-30"
 
 const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_KEY)
 
+type NavObject = {
+	name: string;
+	link: string;
+}
+
+const Links: NavObject[] = [
+	{ name: "Home", link: "/" },
+	{ name: "Practice Feed", link: "/practicefeed" },
+	{ name: "Project Sharing", link: "/projectsharing" },
+	{ name: "Helpful Resources", link: "/resources" },
+	{ name: "Personal Stats", link: "/" },
+	{ name: "Home", link: "/" },
+	{ name: "Home", link: "/" },
+]
+
 const Menu = () => {
 
 	const [hidden, setHidden] = useState("hidden");
