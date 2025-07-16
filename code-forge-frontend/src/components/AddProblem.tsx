@@ -1,20 +1,17 @@
 import { useEffect } from "react";
 import { supabaseClient } from "../config/supabase-clients"
+import type { Problem } from "../types";
 
-type Problem = {
-	question: string;
-	description: string;
-	answers: string;
-	course_id: number;
-}
 
 const newProblemData: Problem =
 {
-	question: "Write a recursive Fibonacci function in C++",
-	description: "Implement a recursive function in C++ that returns the nth Fibonacci number.",
-	answers: "int fibonacci(int n) {\n    if (n <= 1)\n        return n;\n    return fibonacci(n-1) + fibonacci(n-2);\n}",
+	question: "gui",
+	description: "gui",
+	difficulty: "medium",
+	answers: "gui",
 	course_id: 1234
 }
+
 
 const AddProblemComponent = () => {
 

@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect, useState } from "react";
 import AddProblemComponent from "../components/AddProblem";
 import Footer from "../components/Footer";
@@ -80,7 +81,6 @@ const PracticeFeed: React.FC = () => {
 			</div>
 			<ProblemModal />
 			<div className="pt-4">
-				<Footer />
 			</div>
 		</div>
 

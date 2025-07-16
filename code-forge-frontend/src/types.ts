@@ -15,4 +15,5 @@ export type Problem = {
 	description: string;
 	answers: string;
 	course_id: number;
+	difficulty: string
 }
