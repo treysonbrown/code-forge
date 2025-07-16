@@ -13,6 +13,7 @@ type Problem = {
 	answers: string;
 	difficulty: string;
 	course_id: number;
+	id: number;
 }
 
 const supabase = supabaseClient
@@ -52,6 +53,7 @@ const PracticeFeed: React.FC = () => {
 			const { data, error } = await supabaseClient
 				.from('problem')
 				.select('*')
+				.order('id', { ascending: false })
 
 			if (error) {
 				console.log(error)
@@ -73,7 +75,10 @@ const PracticeFeed: React.FC = () => {
 			<div className="ml-[5%] mr-[5%]">
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
 					{data.map((problem) => (
-						<ProblemCard title={problem.question} diffuculty={problem.difficulty} />
+						<>
+							<ProblemCard title={problem.question} diffuculty={problem.difficulty} />
+						</>
+
 					))}
 				</div>
 			</div>
