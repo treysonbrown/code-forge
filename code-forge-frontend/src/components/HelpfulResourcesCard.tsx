@@ -8,7 +8,7 @@ const HelpfulResourcesCard: React.FC = () => {
 
 				<h1 className="absolute top-1/4 left-32 font-alegreya text-white  md:text-3xl lg:text-4xl font-bold">HELPFUL</h1>
 
-				<h1 className="absolute top-1/2 right-10 -translate-y-1/2 font-alegreya  md:text-3xl lg:text-4xl text-accent font-bold">RESOURCES</h1>
+				<h1 className="absolute top-1/2 right-10 -translate-y-1/2 font-alegreya  md:text-3xl lg:text-4xl text-local-accent font-bold">RESOURCES</h1>
 			</div>
 		</Link>
 	);

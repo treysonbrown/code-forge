@@ -1,7 +1,5 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import AddProblemComponent from "../components/AddProblem";
-import Footer from "../components/Footer";
 import Header from "../components/Header";
 import ProblemCard from "../components/ProblemCard";
 import { supabaseClient } from "../config/supabase-clients";

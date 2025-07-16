@@ -8,7 +8,7 @@ const PersonalStatsCard: React.FC = () => {
 
 				<h1 className="absolute top-20 left-12 font-alegreya text-white  md:text-3xl lg:text-4xl font-bold">PERSONAL</h1>
 
-				<h1 className="absolute top-1/2 right-10 -translate-y-1/2 font-alegreya  md:text-3xl lg:text-4xl text-accent font-bold">STATS</h1>
+				<h1 className="absolute top-1/2 right-10 -translate-y-1/2 font-alegreya  md:text-3xl lg:text-4xl text-local-accent font-bold">STATS</h1>
 			</div>
 		</Link>
 	);

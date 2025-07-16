@@ -8,7 +8,7 @@ const LeaderBoardCard: React.FC = () => {
 
 				<h1 className="absolute top-20 left-12 font-alegreya text-white  md:text-3xl lg:text-4xl font-bold">LEADER</h1>
 
-				<h1 className="absolute top-2/3 right-10 -translate-y-1/2 font-alegreya  md:text-3xl lg:text-4xl text-accent font-bold">BOARD</h1>
+				<h1 className="absolute top-2/3 right-10 -translate-y-1/2 font-alegreya  md:text-3xl lg:text-4xl text-local-accent font-bold">BOARD</h1>
 			</div>
 		</Link>
 	);

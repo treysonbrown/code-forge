@@ -3,7 +3,6 @@ import Logo from "./Logo";
 import { useState, useEffect } from "react";
 import type { SessionData } from "react-router-dom";
 import { createClient } from '@supabase/supabase-js'
-import { SignIn } from "@supabase/auth-ui-react";
 import SignInLink from "./SignInLink";
 
 
