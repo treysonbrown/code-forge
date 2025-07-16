@@ -9,7 +9,7 @@ import ProjectSharingCard from "../components/ProjectSharingCard"
 const Home = () => {
 	return (
 		<>
-			<div className="bg-primary ">
+			<div className="">
 				<Background subText="PRACTICE CODING BOTH IN AND OUT OF THE CLASSROOM" />
 
 

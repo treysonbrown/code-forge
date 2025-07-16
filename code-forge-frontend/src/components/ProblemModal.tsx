@@ -28,7 +28,7 @@ const NewQuestionDialog = () => {
 	const [formData, setFormData] = useState<Problem>({
 		question: "",
 		description: "",
-		difficulty: "",
+		difficulty: "Easy",
 		answers: "",
 		course_id: 1234,
 	})
@@ -86,9 +86,13 @@ const NewQuestionDialog = () => {
 							<Label htmlFor="description" className="text-white">Description</Label>
 							<Input id="description" value={formData.description} name="description" onChange={handleChange} className="text-white" />
 						</div>
-						<div className="grid gap-3">
-							<Label htmlFor="name" className="text-white">Difficulty</Label>
-							<Input id="difficulty" name="difficulty" value={formData.difficulty} onChange={handleChange} className="text-white" />
+						<div className="">
+							<label htmlFor="category" className="block mb-2 text-sm font-medium text-white">Difficulty</label>
+							<select id="difficulty" value={formData.difficulty} name="difficulty" className="bg-card border border-gray-300 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 ">
+								<option value="Easy">Easy</option>
+								<option value="Medium">Medium</option>
+								<option value="Hard">Hard</option>
+							</select>
 						</div>
 						<div className="grid gap-3">
 							<Label htmlFor="question" className="text-white">Answers</Label>
