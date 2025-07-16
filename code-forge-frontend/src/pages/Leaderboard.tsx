@@ -28,7 +28,7 @@ const Leaderboard = () => {
 
 			<div className="mt-10">
 				{runnerUps.map((runnerUp, i) => {
-					const bgColor: string = runnerUp.place % 2 == 0 ? "bg-runnerup" : "bg-primary"
+					const bgColor: string = runnerUp.place % 2 === 0 ? "bg-runnerup" : "bg-local-primary"
 					return (
 						<RunnerUp username={runnerUp.username} place={runnerUp.place} bgColor={bgColor} key={i} />
 					)

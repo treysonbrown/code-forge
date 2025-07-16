@@ -21,9 +21,17 @@ class Problem(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
     question: str
     description: str
-    answers: str
+    answers: list["Answer"] = Relationship(back_populates="problem")
     course_id: int = Field(foreign_key="course.id")
     course: "Course" = Relationship(back_populates="course")
+
+class Answer(SQLModel, table=True):
+    id: int | None = Field(default=None, primary_key=True)
+    answer: str
+    is_correct: bool = Field(default=False)
+    problem_id: int = Field(foreign_key="problem.id")
+    problem: Problem = Relationship(back_populates="answers")
+
 
 class Course(User, table=True):
     id: int | None = Field(default=None, primary_key=True)
