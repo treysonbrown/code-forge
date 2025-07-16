@@ -5,7 +5,7 @@ function App() {
 
 	return (
 		<>
-			<div className="bg-primary">
+			<div className="bg-local-primary">
 				<Navbar />
 				<main>
 					<Outlet />
