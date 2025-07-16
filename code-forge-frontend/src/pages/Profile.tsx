@@ -26,6 +26,6 @@ export default function Profile() {
 		return (<div className='mt-40'>not logged in</div>)
 	}
 	else {
-		return (<div className='mt-40'>Logged in!</div>)
+		return (<div className='mt-40'>logged in</div>)
 	}
 }
