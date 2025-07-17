@@ -17,23 +17,33 @@ import { Link } from "react-router-dom"
 type FormData = {
 	email: string;
 	password: string;
+	username: string;
+	role: string;
+	classCode: string;
 }
 
 const supabase = supabaseClient
-const LoginCard = () => {
 
+const RegristrationForm = () => {
 	const [formData, setFormData] = useState<FormData>({
 		email: '',
-		password: ''
+		password: '',
+		username: '',
+		role: '',
+		classCode: '',
 	});
 
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
 		const { name, value } = e.target;
 		setFormData((prev) => ({
 			...prev,
 			[name]: value,
 		}));
 	};
+
+	const test = () => {
+		console.log(formData)
+	}
 
 	const handleSumbit = async () => {
 		const { data, error } = await supabase.auth.signInWithPassword({
@@ -52,13 +62,10 @@ const LoginCard = () => {
 	return (
 		<Card className="w-full max-w-sm">
 			<CardHeader>
-				<CardTitle>Login to your account</CardTitle>
-				<CardDescription>
-					Enter your email below to login to your account
-				</CardDescription>
+				<CardTitle>Create an account</CardTitle>
 				<CardAction>
-					<Link to="/signup">
-						<Button variant="link" >Sign Up</Button>
+					<Link to="/login">
+						<Button variant="link" >Login</Button>
 					</Link>
 				</CardAction>
 			</CardHeader>
@@ -88,19 +95,40 @@ const LoginCard = () => {
 							</div>
 							<Input id="password" type="password" name="password" value={formData.password} onChange={handleChange} required />
 						</div>
+
+						<div className="grid gap-2">
+							<Label htmlFor="email">Username</Label>
+							<Input
+								id="username"
+								type="username"
+								placeholder="username"
+								name="username"
+								value={formData.username}
+								onChange={handleChange}
+								required
+							/>
+						</div>
+
+						<div className="">
+							<label htmlFor="category" className="block mb-2 text-sm font-medium text-white">Role</label>
+							<select id="role" name="role" onChange={handleChange} className="bg-card border border-gray-300 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 ">
+								<option value="Student">Student</option>
+								<option value="Teacher">Teacher</option>
+							</select>
+						</div>
 					</div>
 				</form>
 			</CardContent>
 			<CardFooter className="flex-col gap-2">
-				<Button type="submit" className="w-full" onClick={handleSumbit}>
-					Login
+				<Button type="submit" className="w-full" onClick={test}>
+					Create an account
 				</Button>
 				<Button variant="outline" className="w-full">
-					Login with Google
+					Sign up with Google
 				</Button>
 			</CardFooter>
 		</Card>
 	)
 }
 
-export default LoginCard;
+export default RegristrationForm;

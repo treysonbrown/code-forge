@@ -14,7 +14,6 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useState } from "react"
-import { Textarea } from "./ui/textarea"
 import type { Problem } from '../types'
 import { supabaseClient } from "../config/supabase-clients";
 
@@ -28,25 +27,25 @@ const NewQuestionDialog = () => {
 	const [formData, setFormData] = useState<Problem>({
 		question: "",
 		description: "",
-		difficulty: "Easy",
-		answers: "",
 		course_id: 1234,
+		difficulty: "",
 	})
 
 	const AddProblem = async (newProblem: Problem) => {
-		const { data, error } = await supabaseClient
+		const { error } = await supabaseClient
 			.from("problem")
-			.insert(newProblem)
+			.insert([newProblem])
 			.single();
 
 		if (error) {
-			console.log(error)
+			console.log(error.hint)
+			console.log(formData)
 		} else {
 			console.log("success")
 		}
 	}
 
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
 		const { name, value } = e.target
 		setFormData((prev) => ({
 			...prev,
@@ -88,15 +87,11 @@ const NewQuestionDialog = () => {
 						</div>
 						<div className="">
 							<label htmlFor="category" className="block mb-2 text-sm font-medium text-white">Difficulty</label>
-							<select id="difficulty" value={formData.difficulty} name="difficulty" className="bg-card border border-gray-300 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 ">
+							<select id="difficulty" value={formData.difficulty} name="difficulty" onChange={handleChange} className="bg-card border border-gray-300 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 ">
 								<option value="Easy">Easy</option>
 								<option value="Medium">Medium</option>
 								<option value="Hard">Hard</option>
 							</select>
-						</div>
-						<div className="grid gap-3">
-							<Label htmlFor="question" className="text-white">Answers</Label>
-							<Textarea id="answers" name="answers" value={formData.answers} onChange={handleChange} className="text-white" />
 						</div>
 					</div>
 					<DialogFooter>

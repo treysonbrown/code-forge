@@ -1,31 +1,22 @@
-import { useState, useEffect } from 'react'
-import { createClient } from '@supabase/supabase-js'
-import type { SessionData } from 'react-router-dom'
+import WhiteHeader from "@/components/WhiteHeader";
+import { supabaseClient } from "@/config/supabase-clients";
 
 
-const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_KEY)
+const supabase = supabaseClient
 
-export default function Profile() {
-	const [session, setSession] = useState<SessionData | null>(null)
+const Profile = () => {
 
-	useEffect(() => {
-		supabase.auth.getSession().then(({ data: { session } }) => {
-			setSession(session)
-		})
 
-		const {
-			data: { subscription },
-		} = supabase.auth.onAuthStateChange((_event, session) => {
-			setSession(session)
-		})
+	return (
+		<WhiteHeader text="Profile" />
+	)
 
-		return () => subscription.unsubscribe()
-	}, [])
 
-	if (!session) {
-		return (<div className='mt-40'>not logged in</div>)
-	}
-	else {
-		return (<div className='mt-40'>logged in</div>)
-	}
 }
+
+export default Profile;
+
+
+
+
+

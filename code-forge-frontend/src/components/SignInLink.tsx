@@ -4,10 +4,10 @@ const SignInLink = () => {
 	return (
 		<div className="flex gap-10 mr-10">
 			<Link to="/login">
-				<h1 className="text-white mt-2 mr-2">Sign in</h1>
+				<h1 className="text-white mt-2 mr-2">Login</h1>
 			</Link>
 			<Link to="/signup">
-				<h1 className="text-white mt-2 mr-2">Login</h1>
+				<h1 className="text-white mt-2 mr-2">Sign up</h1>
 			</Link>
 		</div>
 	)

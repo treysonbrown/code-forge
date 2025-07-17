@@ -16,11 +16,13 @@ class StudentCourseLink(SQLModel, table=True):
 class Student(User, table=True):
     enrolled_classes: list["Course"] = Relationship(link_model=StudentCourseLink)
     problems_solved: int
+    points: int
 
 class Problem(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
     question: str
     description: str
+    difficulty: int
     answers: list["Answer"] = Relationship(back_populates="problem")
     course_id: int = Field(foreign_key="course.id")
     course: "Course" = Relationship(back_populates="course")

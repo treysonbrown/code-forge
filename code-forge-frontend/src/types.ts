@@ -13,7 +13,6 @@ export type RunnerUpProps = {
 export type Problem = {
 	question: string;
 	description: string;
-	answers: string;
 	course_id: number;
 	difficulty: string
 }
