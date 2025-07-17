@@ -42,7 +42,7 @@ const PracticeFeed: React.FC = () => {
 					const fetchRoles = async () => {
 						const { data } = await supabaseClient
 							.from('teacher')
-							.select('email')
+							.select('name')
 							.eq('email', user.email)
 						setTeacher(data?.length)
 					}
@@ -69,6 +69,7 @@ const PracticeFeed: React.FC = () => {
 			if (error) {
 				console.log(error)
 			} else {
+				console.log(data)
 				setData(data)
 				setError(null)
 				setLoading(false)
