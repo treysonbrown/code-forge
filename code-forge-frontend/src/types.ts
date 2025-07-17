@@ -8,6 +8,7 @@ export type RunnerUpProps = {
 	place: number;
 	username: string;
 	bgColor: string;
+	points: number;
 }
 
 export type Problem = {
@@ -15,4 +16,13 @@ export type Problem = {
 	description: string;
 	course_id: number;
 	difficulty: string
+}
+
+
+export type Student = {
+	email: string;
+	id: number;
+	name: string;
+	points: number;
+	problems_solved: number;
 }
