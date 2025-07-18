@@ -25,6 +25,7 @@ const Leaderboard = () => {
 			const { data, error } = await supabaseClient
 				.from('student')
 				.select('*')
+				.eq('course_id', 1234)
 				.order('points', { ascending: false })
 
 			if (error) {
@@ -52,8 +53,7 @@ const Leaderboard = () => {
 	return (
 		<div className="flex flex-col" >
 			<WhiteHeader text="LEADERBOARD" />
-			<div className="">
-
+			<div className="mb-10">
 
 				<Podium first={podium[0]} second={podium[1]} third={podium[2]} />
 

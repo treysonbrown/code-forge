@@ -58,6 +58,7 @@ const HelpfulResources = () => {
 			const { data, error } = await supabaseClient
 				.from('resources')
 				.select('*')
+				.eq('course_id', 1234)
 				.order('id', { ascending: false })
 
 			if (error) {

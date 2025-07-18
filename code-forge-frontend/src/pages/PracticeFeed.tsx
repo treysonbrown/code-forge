@@ -63,6 +63,7 @@ const PracticeFeed: React.FC = () => {
 			const { data, error } = await supabaseClient
 				.from('problem')
 				.select('*')
+				.eq('course_id', 1234)
 				.order('id', { ascending: false })
 
 			if (error) {

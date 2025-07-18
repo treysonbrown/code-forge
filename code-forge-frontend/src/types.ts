@@ -41,3 +41,11 @@ export type Resource = {
 	link: string
 	course_id: number;
 }
+
+export type Project = {
+	course_id: number;
+	title: string;
+	description: string;
+	likes: number;
+	project_user: string;
+}

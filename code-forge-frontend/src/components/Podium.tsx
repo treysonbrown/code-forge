@@ -6,7 +6,7 @@ type PodiumProp = {
 
 const Podium: React.FC<PodiumProp> = ({ first = "First", second = "Second", third = "Third" }) => {
 	return (
-		<div className="relative flex justify-center mt-20">
+		<div className="relative flex justify-center mt-20 mb-10">
 			<img src="/src/assets/Podium.svg" className="w-[40%]" />
 			<p className="absolute top-6/7 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-3xl font-bold">
 				{first}
