@@ -56,7 +56,6 @@ const PracticeFeed: React.FC = () => {
 		}
 
 
-
 		fetchUser()
 
 		const fetchProblems = async () => {
