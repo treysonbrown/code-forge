@@ -65,9 +65,10 @@ const PersonalStats = () => {
 			<Header whiteText="PERSONAL" blueText="STATS" />
 			<div className="flex flex-col justify-center">
 				<SubWhiteHeader text="POINTS" />
-				<BlueHeader text={String(stats[0].points)} />
+				<h1 className="flex text-shadow-lg justify-center mt-15 mr-5 text-local-accent text-3xl md:text-5xl lg:text-9xl font-bold font-aladin italic">{stats[0].points}</h1>
+
 				<SubHeader whiteText="PROBLEMS" blueText="SOLVED" />
-				<BlueHeader text={String(stats[0].problems_solved)} />
+				<h1 className="flex text-shadow-lg justify-center mt-15 mr-5 text-local-accent text-3xl md:text-5xl lg:text-9xl font-bold font-aladin italic">{stats[0].problems_solved}</h1>
 				<SubWhiteHeader text="BADGES" />
 			</div>
 		</div>
