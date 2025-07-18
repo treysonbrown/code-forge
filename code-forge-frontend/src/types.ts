@@ -26,3 +26,18 @@ export type Student = {
 	points: number;
 	problems_solved: number;
 }
+
+
+export type ResourceResponse = {
+	title: string;
+	description: string;
+	link: string
+}
+
+
+export type Resource = {
+	title: string;
+	description: string;
+	link: string
+	course_id: number;
+}

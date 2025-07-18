@@ -3,11 +3,19 @@ import RunnerUp from "../components/RunnerUp";
 import WhiteHeader from "../components/WhiteHeader";
 import { useEffect, useState } from "react";
 import type { Student } from "@/types";
+import Podium from "@/components/Podium";
+import { data } from "react-router-dom";
 
+type PodiumType = {
+	first: string;
+	second: string;
+	third: string;
+}
 
 const Leaderboard = () => {
 
 	const [results, setResults] = useState<Student[] | null | undefined>([])
+	const [podium, setPodium] = useState(["First", "Second", "Third"])
 
 
 
@@ -25,27 +33,38 @@ const Leaderboard = () => {
 				console.log(data)
 				setResults(data)
 			}
+			if (data?.length >= 3) {
+				setPodium([data[0].name, data[1].name, data[2].name])
+			}
 		}
 		fetchLeaders()
+
+
+
 		console.log(results)
 
 	}, [])
 
 
+
+
+
 	return (
 		<div className="flex flex-col" >
 			<WhiteHeader text="LEADERBOARD" />
-			<div className="flex justify-center">
-				<img src="../../src/assets/Podium.svg" className="flex justify-center mt-20 w-[40%]" />
-			</div>
+			<div className="">
 
-			<div className="mt-10">
+
+				<Podium first={podium[0]} second={podium[1]} third={podium[2]} />
+
 				{results?.map((result, i) => {
 					const place: number = i + 1
-					const bgColor: string = place % 2 === 0 ? "bg-runnerup" : "bg-local-primary"
-					return (
-						<RunnerUp username={result.name} place={place} points={result.points} bgColor={bgColor} key={i} />
-					)
+					if (place > 3) {
+						const bgColor: string = place % 2 === 0 ? "bg-runnerup" : "bg-local-primary"
+						return (
+							<RunnerUp username={result.name} place={place} points={result.points} bgColor={bgColor} key={i} />
+						)
+					}
 				})}
 			</div>
 
