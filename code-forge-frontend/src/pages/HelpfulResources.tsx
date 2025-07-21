@@ -78,7 +78,7 @@ const HelpfulResources = () => {
 		return (
 			<>
 				<Header whiteText="HELPFUL" blueText="RESOURCES" />
-				<div className="ml-[5%] mr-[5%] mt-20">
+				<div className="ml-[5%] mr-[5%] mt-20 mb-20">
 					<div className="flex flex-col gap-5">
 						{
 							resources.map((resource) => {
@@ -94,7 +94,7 @@ const HelpfulResources = () => {
 		return (
 			<>
 				<Header whiteText="HELPFUL" blueText="RESOURCES" />
-				<div className="ml-[5%] mr-[5%] mt-20">
+				<div className="ml-[5%] mr-[5%] mt-20 mb-20">
 					<div className="flex flex-col gap-5">
 						{
 							resources.map((resource) => {

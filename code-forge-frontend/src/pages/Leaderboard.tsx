@@ -4,13 +4,7 @@ import WhiteHeader from "../components/WhiteHeader";
 import { useEffect, useState } from "react";
 import type { Student } from "@/types";
 import Podium from "@/components/Podium";
-import { data } from "react-router-dom";
 
-type PodiumType = {
-	first: string;
-	second: string;
-	third: string;
-}
 
 const Leaderboard = () => {
 

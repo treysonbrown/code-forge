@@ -76,7 +76,7 @@ const PracticeFeed: React.FC = () => {
 		<>
 			<Header whiteText="PROJECT" blueText="SHARE" />
 
-			<div className="flex flex-col justify-center mr-[5%] ml-[5%] mt-20 gap-10">
+			<div className="flex flex-col justify-center mr-[5%] ml-[5%] mt-20 gap-10 mb-20">
 				{data.map((project) => (
 					<Post title={project.title} description={project.description} project_user={project.project_user} likes={project.likes} />
 				))}

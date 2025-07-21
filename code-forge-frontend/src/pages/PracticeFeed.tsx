@@ -11,7 +11,7 @@ const practiceFeedDesc: string = "Select a problem that aligns with your interes
 type Problem = {
 	question: string;
 	description: string;
-	answers: string;
+	answer: string;
 	difficulty: string;
 	course_id: number;
 	id: number;
@@ -64,6 +64,7 @@ const PracticeFeed: React.FC = () => {
 				.from('problem')
 				.select('*')
 				.eq('course_id', 1234)
+				.eq('correct', false)
 				.order('id', { ascending: false })
 
 			if (error) {
@@ -91,12 +92,16 @@ const PracticeFeed: React.FC = () => {
 					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
 						{data.map((problem) => (
 							<>
-								<ProblemCard title={problem.question} diffuculty={problem.difficulty} />
+
+								{
+									console.log(problem.description)
+								}
+								<ProblemCard title={problem.question} diffuculty={problem.difficulty} description={problem.description} answer={problem.answer} id={problem.id} />
 							</>
 
 						))}
 					</div>
-				</div>
+				</div >
 				<ProblemModal />
 			</>
 		)
@@ -110,7 +115,7 @@ const PracticeFeed: React.FC = () => {
 					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
 						{data.map((problem) => (
 							<>
-								<ProblemCard title={problem.question} diffuculty={problem.difficulty} />
+								<ProblemCard title={problem.question} diffuculty={problem.difficulty} description={problem.description} answer={problem.answer} id={problem.id} />
 							</>
 
 						))}
