@@ -15,7 +15,8 @@ export type Problem = {
 	question: string;
 	description: string;
 	course_id: number;
-	difficulty: string
+	difficulty: string;
+	answer: string;
 }
 
 

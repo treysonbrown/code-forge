@@ -16,6 +16,7 @@ import { Label } from "@/components/ui/label"
 import { useState } from "react"
 import type { Problem } from '../types'
 import { supabaseClient } from "../config/supabase-clients";
+import { Textarea } from "./ui/textarea";
 
 
 
@@ -28,7 +29,8 @@ const NewQuestionDialog = () => {
 		question: "",
 		description: "",
 		course_id: 1234,
-		difficulty: "",
+		difficulty: "Easy",
+		answer: "",
 	})
 
 	const AddProblem = async (newProblem: Problem) => {
@@ -83,7 +85,11 @@ const NewQuestionDialog = () => {
 						</div>
 						<div className="grid gap-3">
 							<Label htmlFor="description" className="text-white">Description</Label>
-							<Input id="description" value={formData.description} name="description" onChange={handleChange} className="text-white" />
+							<Textarea id="description" value={formData.description} name="description" onChange={handleChange} className="text-white" />
+						</div>
+						<div className="grid gap-3">
+							<Label htmlFor="description" className="text-white">Answer</Label>
+							<Input id="answer" value={formData.answer} name="answer" onChange={handleChange} className="text-white" />
 						</div>
 						<div className="">
 							<label htmlFor="category" className="block mb-2 text-sm font-medium text-white">Difficulty</label>

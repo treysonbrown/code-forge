@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button"
 import {
 	Dialog,
@@ -8,7 +8,6 @@ import {
 	DialogFooter,
 	DialogHeader,
 	DialogTitle,
-	DialogTrigger,
 } from "@/components/ui/dialog"
 
 import { Input } from "@/components/ui/input"
@@ -28,7 +27,6 @@ const ProblemCard: React.FC<ProblemCardProps> = ({ title, diffuculty = "none", d
 
 	const [open, setOpen] = useState(false)
 	const [userAnswer, setUserAnswer] = useState("")
-	const [isCorrect, setIsCorrect] = useState<boolean>(false)
 
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,6 +56,9 @@ const ProblemCard: React.FC<ProblemCardProps> = ({ title, diffuculty = "none", d
 		console.log(answer)
 		if (userAnswer === answer) {
 			updateProblem()
+			alert("Correct!")
+		} else {
+			alert("Sorry that is incorrect")
 		}
 
 		setOpen(false)
@@ -71,9 +72,6 @@ const ProblemCard: React.FC<ProblemCardProps> = ({ title, diffuculty = "none", d
 			</button>
 
 			<Dialog open={open}>
-				<DialogTrigger asChild>
-					<button className="fixed bottom-6 right-6 w-14 h-14 rounded-full bg-button hover:bg-local-accent text-white text-3xl flex items-center justify-center shadow-lg    pb-[2px]" onClick={() => { setOpen(true) }}>+</button>
-				</DialogTrigger>
 				<DialogContent className="sm:max-w-[425px] bg-card">
 					<form onSubmit={handleSubmit}>
 						<DialogHeader>
