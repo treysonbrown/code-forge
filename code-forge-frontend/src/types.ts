@@ -17,6 +17,7 @@ export type Problem = {
 	course_id: number;
 	difficulty: string;
 	answer: string;
+	points: number;
 }
 
 

@@ -31,6 +31,7 @@ const NewQuestionDialog = () => {
 		course_id: 1234,
 		difficulty: "Easy",
 		answer: "",
+		points: 0,
 	})
 
 	const AddProblem = async (newProblem: Problem) => {
@@ -90,6 +91,10 @@ const NewQuestionDialog = () => {
 						<div className="grid gap-3">
 							<Label htmlFor="description" className="text-white">Answer</Label>
 							<Input id="answer" value={formData.answer} name="answer" onChange={handleChange} className="text-white" />
+						</div>
+						<div className="grid gap-3">
+							<Label htmlFor="description" className="text-white">Points</Label>
+							<Input id="points" value={formData.points} name="points" onChange={handleChange} className="text-white" />
 						</div>
 						<div className="">
 							<label htmlFor="category" className="block mb-2 text-sm font-medium text-white">Difficulty</label>

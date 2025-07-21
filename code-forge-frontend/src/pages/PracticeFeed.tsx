@@ -92,10 +92,6 @@ const PracticeFeed: React.FC = () => {
 					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
 						{data.map((problem) => (
 							<>
-
-								{
-									console.log(problem.description)
-								}
 								<ProblemCard title={problem.question} diffuculty={problem.difficulty} description={problem.description} answer={problem.answer} id={problem.id} />
 							</>
 

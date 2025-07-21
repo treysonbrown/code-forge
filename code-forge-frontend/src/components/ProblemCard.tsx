@@ -20,10 +20,11 @@ type ProblemCardProps = {
 	description?: string;
 	answer: string;
 	id: number;
+	points: number;
 }
 
 
-const ProblemCard: React.FC<ProblemCardProps> = ({ title, diffuculty = "none", description, answer, id }) => {
+const ProblemCard: React.FC<ProblemCardProps> = ({ title, diffuculty = "none", description, answer, id, points }) => {
 
 	const [open, setOpen] = useState(false)
 	const [userAnswer, setUserAnswer] = useState("")
@@ -41,7 +42,6 @@ const ProblemCard: React.FC<ProblemCardProps> = ({ title, diffuculty = "none", d
 			.from("problem")
 			.update({ correct: true })
 			.eq('id', id)
-
 		if (error) {
 			console.log(error.hint)
 		} else {
