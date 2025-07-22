@@ -1,6 +1,6 @@
+import AboutBackground from "@/components/AboutBackground";
 import AboutCard from "../components/AboutCard";
 import AboutPageCard from "../components/AboutPageCard";
-import Background from "../components/Background"
 import Footer from "../components/Footer";
 import SubBlueHeader from "../components/SubBlueHeader";
 
@@ -11,7 +11,7 @@ const About = () => {
 	return (
 
 		<div>
-			<Background subText="" />
+			<AboutBackground />
 			<div className="grid grid-cols-2 mr-[10%] ml-[10%] gap-10">
 				<AboutCard header="ABOUT US" desc="We're building the place students actually want to code.
 Coding outside of class shouldn’t feel like a chore. That’s why we created [Your Site Name]—a practice and peer-learning platform designed specifically for high school and college students in computer science.

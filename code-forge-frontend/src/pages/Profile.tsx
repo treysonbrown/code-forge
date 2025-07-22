@@ -11,7 +11,6 @@ const supabase = supabaseClient
 
 type StatType = {
 	email: string;
-	id: number;
 	name: string;
 	points: number;
 	problems_solved: number;
@@ -21,10 +20,10 @@ type StatType = {
 
 const Profile = () => {
 
+	const [name, setName] = useState("")
 	const [stats, setStats] = useState<StatType[] | null>([{
 		name: "",
 		email: "",
-		id: 0,
 		points: 0,
 		problems_solved: 0
 	}])
@@ -48,6 +47,7 @@ const Profile = () => {
 							.select('*')
 							.eq('email', user.email)
 						setStats(data)
+						setName(data[0].name)
 					}
 					fetchStats()
 
@@ -59,7 +59,6 @@ const Profile = () => {
 		}
 
 
-		console.log(stats)
 
 		fetchUser()
 
@@ -68,7 +67,7 @@ const Profile = () => {
 
 	return (
 		<>
-			<WhiteHeader text={stats[0].name} />
+			<WhiteHeader text={name} />
 			<div className="flex justify-center flex-col gap-5 m-22">
 				<GrayButton buttonText="Personal Stats" linkTo="/stats" />
 				<GrayButton buttonText="Settings" linkTo="/settings" />

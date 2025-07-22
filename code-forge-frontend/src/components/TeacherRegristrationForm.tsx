@@ -3,7 +3,6 @@ import {
 	Card,
 	CardAction,
 	CardContent,
-	CardDescription,
 	CardFooter,
 	CardHeader,
 	CardTitle,
@@ -18,19 +17,31 @@ type FormData = {
 	email: string;
 	password: string;
 	username: string;
-	role: string;
-	classCode: string;
+	teacher_email: string;
+	title: string;
+}
+
+type TeacherType = {
+	name: string;
+	email: string;
+}
+
+type Course = {
+	name: string;
+	email: string;
+	title: string;
+	teacher_id: number;
 }
 
 const supabase = supabaseClient
 
-const RegristrationForm = () => {
+const TeacherRegristrationForm = () => {
 	const [formData, setFormData] = useState<FormData>({
 		email: '',
 		password: '',
 		username: '',
-		role: '',
-		classCode: '',
+		teacher_email: '',
+		title: '',
 	});
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -41,19 +52,68 @@ const RegristrationForm = () => {
 		}));
 	};
 
-	const test = () => {
-		console.log(formData)
+	const createCourse = async () => {
+		const { data } = await supabaseClient
+			.from('teacher')
+			.select('id')
+			.eq('email', formData.email)
+
+
+
+		const newCourse: Course = {
+			name: formData.username,
+			email: formData.email,
+			title: formData.title,
+			teacher_id: data[0].id,
+		}
+
+		const { error } = await supabaseClient
+			.from("course")
+			.insert([newCourse])
+			.single()
+		if (error) {
+			console.log(error.hint)
+		} else {
+			console.log("success")
+		}
 	}
 
+
+	const createTeacher = async () => {
+		const new_teacher: TeacherType = {
+			name: formData.username,
+			email: formData.email,
+
+		}
+
+		const { error } = await supabaseClient
+			.from("teacher")
+			.insert([new_teacher])
+			.single()
+		if (error) {
+			console.log(error.hint)
+		} else {
+			createCourse()
+		}
+	}
+
+
+
+
+
+
+
 	const handleSumbit = async () => {
-		const { data, error } = await supabase.auth.signInWithPassword({
+		const { error } = await supabase.auth.signUp({
 			email: formData.email,
 			password: formData.password,
 		})
+
 		if (error) {
 			console.log(error)
 		} else {
-			console.log(data)
+			createTeacher()
+
 		}
 	}
 
@@ -82,6 +142,7 @@ const RegristrationForm = () => {
 								value={formData.email}
 								onChange={handleChange}
 								required
+								onSubmit={handleSumbit}
 							/>
 						</div>
 						<div className="grid gap-2">
@@ -93,7 +154,7 @@ const RegristrationForm = () => {
 									Forgot your password?
 								</a>
 							</div>
-							<Input id="password" type="password" name="password" value={formData.password} onChange={handleChange} required />
+							<Input id="password" type="password" name="password" placeholder="*******" value={formData.password} onChange={handleChange} required />
 						</div>
 
 						<div className="grid gap-2">
@@ -109,26 +170,30 @@ const RegristrationForm = () => {
 							/>
 						</div>
 
-						<div className="">
-							<label htmlFor="category" className="block mb-2 text-sm font-medium text-white">Role</label>
-							<select id="role" name="role" onChange={handleChange} className="bg-card border border-gray-300 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 ">
-								<option value="Student">Student</option>
-								<option value="Teacher">Teacher</option>
-							</select>
+						<div className="grid gap-2">
+							<Label htmlFor="title">Course Title</Label>
+							<Input
+								id="title"
+								type="title"
+								placeholder="title"
+								name="title"
+								value={formData.title}
+								onChange={handleChange}
+								required
+							/>
 						</div>
+
 					</div>
 				</form>
+
 			</CardContent>
 			<CardFooter className="flex-col gap-2">
-				<Button type="submit" className="w-full" onClick={test}>
+				<Button type="submit" className="w-full" onClick={handleSumbit}>
 					Create an account
-				</Button>
-				<Button variant="outline" className="w-full">
-					Sign up with Google
 				</Button>
 			</CardFooter>
 		</Card>
 	)
 }
 
-export default RegristrationForm;
+export default TeacherRegristrationForm;

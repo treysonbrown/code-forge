@@ -1,29 +1,41 @@
-import { createClient } from '@supabase/supabase-js'
-import LoginCard from '@/components/LoginCard'
-import RegristrationForm from '@/components/RegristrationForm'
-
-const anonKey = import.meta.env.VITE_SUPABASE_KEY
-const supaURL = import.meta.env.VITE_SUPABASE_URL
-
-const supabase = createClient(supaURL, anonKey)
+import StudentRegristrationForm from '@/components/StudentRegristrationForm'
+import { useState } from 'react'
+import WhiteHeader from '@/components/WhiteHeader'
+import SignUpButton from '@/components/SignUpButton'
+import TeacherRegristrationForm from '@/components/TeacherRegristrationForm'
 
 
-const { data } = await supabase.auth.getSession()
 
 const SignUpPage = () => {
+	const [role, setRole] = useState("none")
 
-	return (
-
-		<>
-			<div className='flex justify-center mt-40'>
-				<RegristrationForm />
-
-
+	if (role === "none") {
+		return (
+			<div className='flex justify-center flex-col  justify-center'>
+				<WhiteHeader text='Pick your role' />
+				<div className='flex justify-center mt-15 gap-10'>
+					<SignUpButton text="I'm am a student" buttonFunction={() => { setRole('student') }} />
+					<SignUpButton text="I'm am a teacher" buttonFunction={() => { setRole('teacher') }} />
+				</div>
 			</div>
+		)
 
-		</>
+	} else if (role === 'student') {
+		return (
+			<>
+				<div className='flex justify-center w-full mt-40'>
+					<StudentRegristrationForm />
+				</div>
+			</>
+		)
+	} else if (role === 'teacher') {
+		return (
+			<div className='flex justify-center w-full mt-40'>
+				<TeacherRegristrationForm />
+			</div>
+		)
+	}
 
-	)
 }
 
 export default SignUpPage;

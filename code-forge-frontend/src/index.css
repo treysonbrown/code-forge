@@ -18,11 +18,13 @@
 	--color-gray: #626262;
 	--color-hover: #7a7a7a;
 	--color-nav: #121212;
+	--coror-nav-hover: #1E1E1E;
 	--color-runnerup: #1F1F1F;
 	--color-menu: #6C6C6C;
 	--color-link: #808080;
 	--color-link-hover: #bdbdbd;
 	--color-button: #32B8E6;
+	--color-deep-blue: #1A9CD6; 
   --text-shadow-lg: 3px 3px 6px rgba(0, 0, 0, 0.7); 
 }
 

@@ -1,10 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import Header from "../components/Header";
 import ProblemCard from "../components/ProblemCard";
 import { supabaseClient } from "../config/supabase-clients";
-import ProblemModal from "../components/ProblemModal";
-import { Footer } from "rsuite";
 
 const practiceFeedDesc: string = "Select a problem that aligns with your interests and skill level. Detailed instructions are provided within each problem."
 
@@ -14,23 +11,23 @@ type Problem = {
 	answer: string;
 	difficulty: string;
 	course_id: number;
+	points: number;
 	id: number;
 }
 
 
 const supabase = supabaseClient
-
-
+const { data, error } = await supabase.auth.refreshSession()
+const { session, user } = data
 
 const PracticeFeed: React.FC = () => {
-	const [loading, setLoading] = useState<boolean>(false);
-	const [error, setError] = useState(null);
-	const [data, setData] = useState<Problem[]>([]);
-	const [teacher, setTeacher] = useState<any>()
+	const [teacher, setTeacher] = useState()
+	const [teacherData, setTeacherData] = useState()
+	const [courseID, setCourseID] = useState()
+	const [problems, setProblems] = useState<Problem[]>([])
 
 
 	useEffect(() => {
-
 		const fetchUser = async () => {
 			try {
 				const { data: { user }, error } = await supabase.auth.getUser();
@@ -54,73 +51,74 @@ const PracticeFeed: React.FC = () => {
 				console.log('No')
 			}
 		}
-
-
 		fetchUser()
 
-		const fetchProblems = async () => {
-			setLoading(true)
-			const { data, error } = await supabaseClient
-				.from('problem')
-				.select('*')
-				.eq('course_id', 1234)
-				.eq('correct', false)
-				.order('id', { ascending: false })
 
-			if (error) {
-				console.log(error)
+		const fetchCourse = async () => {
+
+			if (teacher) {
+				const fetchCourseTeacher = async () => {
+					const { data } = await supabaseClient
+						.from('teacher')
+						.select('id')
+						.eq('email', user?.email)
+					setCourseID(data[0].id)
+				}
+				fetchCourseTeacher()
 			} else {
-				console.log(data)
-				setData(data)
-				setError(null)
-				setLoading(false)
+				const fetchCourseStudent = async () => {
+					const { data } = await supabaseClient
+						.from('student')
+						.select('course_id')
+						.eq('email', user?.email)
+					setCourseID(data[0].course_id)
+				}
+				fetchCourseStudent()
 			}
 		}
-		fetchProblems()
+		fetchCourse()
+
+
+		const fetchProblems = async () => {
+			const { data } = await supabaseClient
+				.from('problem')
+				.select('*')
+				.eq('course_id', courseID)
+			setProblems(data[0])
+		}
+
+
+
 
 	}, [])
 
 
 
+
+
+
+
+
+
+
 	if (teacher) {
+		console.log(problems)
 		return (
-			<>
-				<Header whiteText="PRACTICE" blueText="FEED" />
-				<p className="flex text-center ml-[20%] mr-[20%] align-items text-white m-15 font-alegreya md:text-xl lg:text-2xl">{practiceFeedDesc}</p>
 
-				<div className="ml-[5%] mr-[5%]">
-					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-						{data.map((problem) => (
-							<>
-								<ProblemCard title={problem.question} diffuculty={problem.difficulty} description={problem.description} answer={problem.answer} id={problem.id} />
-							</>
+			<h1 className="mt-40">Teacher</h1>
 
-						))}
-					</div>
-				</div >
-				<ProblemModal />
-			</>
 		)
-	} else if (!teacher) {
+	} else {
+		console.log(teacherData)
+		console.log(user)
 		return (
-			<>
-				<Header whiteText="PRACTICE" blueText="FEED" />
-				<p className="flex text-center ml-[20%] mr-[20%] align-items text-white m-15 font-alegreya md:text-xl lg:text-2xl">{practiceFeedDesc}</p>
 
-				<div className="ml-[5%] mr-[5%]">
-					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-						{data.map((problem) => (
-							<>
-								<ProblemCard title={problem.question} diffuculty={problem.difficulty} description={problem.description} answer={problem.answer} id={problem.id} />
-							</>
-
-						))}
-					</div>
-				</div>
-			</>
-
+			<h1 className="mt-40">Student</h1>
 		)
 	}
-}
 
+
+
+
+}
 export default PracticeFeed;
