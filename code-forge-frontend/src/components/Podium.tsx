@@ -14,7 +14,7 @@ const Podium: React.FC<PodiumProp> = ({ first = "First", second = "Second", thir
 			<p className="absolute top-7/8 left-11/30 transform -translate-x-1/2 -translate-y-1/2 text-white text-3xl font-bold">
 				{second}
 			</p>
-			<p className="absolute top-9/10 right-16/50 transform -translate-x-1/2 -translate-y-1/3 text-white text-3xl font-bold">
+			<p className="absolute top-9/10 right-16/50 transform  -translate-y-1/3 text-white text-3xl font-bold">
 				{third}
 			</p>
 		</div>

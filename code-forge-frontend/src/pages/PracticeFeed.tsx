@@ -51,6 +51,7 @@ const PracticeFeed: React.FC = () => {
 		if (error) {
 			console.log(error)
 		} else {
+			console.log(data[0].id)
 			fetchProblems(data[0].id)
 		}
 	}
@@ -64,6 +65,7 @@ const PracticeFeed: React.FC = () => {
 		if (error) {
 			console.log(error)
 		} else {
+			console.log(data[0].course_id)
 			fetchProblems(data[0].course_id)
 		}
 	}

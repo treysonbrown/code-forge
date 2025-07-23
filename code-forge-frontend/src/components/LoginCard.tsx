@@ -36,21 +36,19 @@ const LoginCard = () => {
 	};
 
 	const handleSumbit = async () => {
-		const { data, error } = await supabase.auth.signInWithPassword({
+		const { error } = await supabase.auth.signInWithPassword({
 			email: formData.email,
 			password: formData.password,
 		})
 		if (error) {
 			console.log(error)
-		} else {
-			console.log(data)
 		}
 	}
 
 
 
 	return (
-		<Card className="w-full max-w-sm">
+		<Card className="w-full max-w-sm md:w-full md:max-w-sm lg:w-100 lg:h-90">
 			<CardHeader>
 				<CardTitle>Login to your account</CardTitle>
 				<CardDescription>

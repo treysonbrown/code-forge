@@ -19,7 +19,7 @@ const Leaderboard = () => {
 			const { data, error } = await supabaseClient
 				.from('student')
 				.select('*')
-				.eq('course_id', 1234)
+				.eq('course_id', 4)
 				.order('points', { ascending: false })
 
 			if (error) {
