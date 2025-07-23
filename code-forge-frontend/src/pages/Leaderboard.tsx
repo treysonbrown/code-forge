@@ -6,33 +6,98 @@ import type { Student } from "@/types";
 import Podium from "@/components/Podium";
 
 
+const supabase = supabaseClient
+const { data, error } = await supabase.auth.refreshSession()
+const { user } = data
+
+
+
 const Leaderboard = () => {
 
 	const [results, setResults] = useState<Student[] | null | undefined>([])
 	const [podium, setPodium] = useState(["First", "Second", "Third"])
+	const [teacher, setTeacher] = useState()
 
+
+	const fetchStudents = async (course_id: Number) => {
+		const { data, error } = await supabaseClient
+			.from('student')
+			.select('*')
+			.eq('course_id', course_id)
+			.order('points', { ascending: false })
+
+		if (error) {
+			console.log(error)
+		} else {
+			console.log(data)
+			setResults(data)
+		}
+		if (data?.length >= 3) {
+			setPodium([data[0].name, data[1].name, data[2].name])
+		}
+	}
+
+
+	const fetchIDTeacher = async () => {
+		const { data, error } = await supabaseClient
+			.from('course')
+			.select('id')
+			.eq('email', user?.email)
+		if (error) {
+			console.log(error)
+		} else {
+			fetchStudents(data[0].id)
+		}
+	}
+
+
+	const fetchIDStudent = async () => {
+		const { data } = await supabaseClient
+			.from('student')
+			.select('course_id')
+			.eq('email', user?.email)
+		if (error) {
+			console.log(error)
+		} else {
+			fetchStudents(data[0].course_id)
+		}
+	}
 
 
 	useEffect(() => {
 
-		const fetchLeaders = async () => {
-			const { data, error } = await supabaseClient
-				.from('student')
-				.select('*')
-				.eq('course_id', 4)
-				.order('points', { ascending: false })
+		const fetchLeader = async () => {
+			try {
+				const { data: { user }, error } = await supabase.auth.getUser();
+				if (error) {
+					console.log(error)
+				}
+				const fetchRoles = async () => {
+					const { data, error } = await supabaseClient
+						.from('teacher')
+						.select('name')
+						.eq('email', user.email)
+					if (error) {
+						console.log(error)
+					} else {
+						setTeacher(data?.length)
+					}
+				}
+				fetchRoles()
+				if (teacher) {
+					fetchIDTeacher()
+				} else {
+					fetchIDStudent()
+				}
 
-			if (error) {
-				console.log(error)
-			} else {
-				console.log(data)
-				setResults(data)
+			} catch (err) {
+				console.log('No')
 			}
-			if (data?.length >= 3) {
-				setPodium([data[0].name, data[1].name, data[2].name])
-			}
+
 		}
-		fetchLeaders()
+
+		fetchLeader()
+
 
 
 

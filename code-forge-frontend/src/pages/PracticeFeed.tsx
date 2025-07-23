@@ -79,6 +79,7 @@ const PracticeFeed: React.FC = () => {
 				if (error) {
 					console.log(error)
 				}
+
 				if (user) {
 					const fetchRoles = async () => {
 						const { data } = await supabaseClient
