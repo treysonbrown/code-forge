@@ -28,6 +28,7 @@ const ProblemCard: React.FC<ProblemCardProps> = ({ title, diffuculty = "none", d
 
 	const [open, setOpen] = useState(false)
 	const [userAnswer, setUserAnswer] = useState("")
+	const [updatedPoints, setUpdatedPoints] = useState<Number>()
 
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,7 +41,7 @@ const ProblemCard: React.FC<ProblemCardProps> = ({ title, diffuculty = "none", d
 		console.log(id)
 		const { error } = await supabaseClient
 			.from("problem")
-			.update({ correct: true })
+			.update({ points: updatedPoints })
 			.eq('id', id)
 
 		if (error) {
@@ -49,6 +50,7 @@ const ProblemCard: React.FC<ProblemCardProps> = ({ title, diffuculty = "none", d
 			console.log("success")
 		}
 	}
+
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
@@ -77,10 +79,11 @@ const ProblemCard: React.FC<ProblemCardProps> = ({ title, diffuculty = "none", d
 					<form onSubmit={handleSubmit}>
 						<DialogHeader>
 							<DialogTitle className="text-white">{title}</DialogTitle>
-							<h1 className="mt-5">Description</h1>
-							<DialogDescription>
+
+							<DialogDescription className="text-white">
 								{description}
 							</DialogDescription>
+							<h1 className="text-gray">{points} points</h1>
 						</DialogHeader>
 						<div className="grid gap-4">
 							<div className="grid gap-3">

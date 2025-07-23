@@ -3,7 +3,6 @@ import Header from "../components/Header";
 import SubHeader from "../components/SubHeader";
 import SubWhiteHeader from "../components/SubWhiteHeader";
 import { useEffect, useState } from "react";
-import BlueHeader from "@/components/BlueHeader";
 
 const supabase = supabaseClient
 

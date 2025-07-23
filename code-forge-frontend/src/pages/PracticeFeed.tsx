@@ -110,7 +110,7 @@ const PracticeFeed: React.FC = () => {
 
 	return (
 		<div className="flex justify-center">
-			<div className="flex grid-columns-1 md:grid-columns-2 lg:grid-columns-4 mt-40 mr-[5%] ml-[5%] gap-10">
+			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mt-40 mr-[5%] ml-[5%] gap-10">
 				{
 					problems.map((problem: Problem) => {
 						return (

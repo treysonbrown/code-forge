@@ -3,6 +3,7 @@ import { useState } from 'react'
 import WhiteHeader from '@/components/WhiteHeader'
 import SignUpButton from '@/components/SignUpButton'
 import TeacherRegristrationForm from '@/components/TeacherRegristrationForm'
+import BlueHeader from '@/components/BlueHeader'
 
 
 
@@ -12,10 +13,17 @@ const SignUpPage = () => {
 	if (role === "none") {
 		return (
 			<div className='flex justify-center flex-col  justify-center'>
-				<WhiteHeader text='Pick your role' />
-				<div className='flex justify-center mt-15 gap-10'>
-					<SignUpButton text="I'm am a student" buttonFunction={() => { setRole('student') }} />
-					<SignUpButton text="I'm am a teacher" buttonFunction={() => { setRole('teacher') }} />
+
+				<div className='flex justify-center'>
+					<WhiteHeader text='Join Code' />
+					<BlueHeader text='Forge' />
+				</div>
+				<p className='flex justify-center mt-10 text-2xl'>Choose your role to get started</p>
+
+				<div className='flex flex-col justify-center mt-15 gap-10 mr-[10%] ml-[10%] mb-20'>
+
+					<SignUpButton text="I'm a student" background='local-accent' buttonFunction={() => { setRole('student') }} />
+					<SignUpButton text="I'm a teacher" background='gray' buttonFunction={() => { setRole('teacher') }} />
 				</div>
 			</div>
 		)
