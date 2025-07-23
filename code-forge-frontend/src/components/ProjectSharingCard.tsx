@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const ProjectSharingCard: React.FC = () => {
 	return (
 		<Link to="/projectsharing">
-			<div className="relative flex flex-col justify-center bg-gray hover:bg-hover  rounded-3xl  overflow-hidden max-w-full">
+			<div className="relative flex flex-col justify-center bg-gray hover:bg-hover transition-all duration-300 ease-in-out rounded-3xl  overflow-hidden max-w-full">
 				<div className="flex justify-center">
 					<img src="../../src/assets/ProjectSharing.png" className="w-[91%] mb-4" />
 				</div>

@@ -22,8 +22,8 @@ const SignUpPage = () => {
 
 				<div className='flex flex-col justify-center mt-15 gap-10 mr-[10%] ml-[10%] mb-20'>
 
-					<SignUpButton text="I'm a student" background='local-accent' buttonFunction={() => { setRole('student') }} />
-					<SignUpButton text="I'm a teacher" background='gray' buttonFunction={() => { setRole('teacher') }} />
+					<SignUpButton text="I'm a student" background='button' textColor='white' hoverColor='local-accent' buttonFunction={() => { setRole('student') }} />
+					<SignUpButton text="I'm a teacher" background='gray' textColor='white' hoverColor='hover' buttonFunction={() => { setRole('teacher') }} />
 				</div>
 			</div>
 		)
