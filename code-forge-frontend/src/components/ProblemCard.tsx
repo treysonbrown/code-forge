@@ -42,6 +42,7 @@ const ProblemCard: React.FC<ProblemCardProps> = ({ title, diffuculty = "none", d
 			.from("problem")
 			.update({ correct: true })
 			.eq('id', id)
+
 		if (error) {
 			console.log(error.hint)
 		} else {

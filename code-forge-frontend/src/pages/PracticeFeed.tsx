@@ -2,29 +2,71 @@ import React from "react";
 import { useEffect, useState } from "react";
 import ProblemCard from "../components/ProblemCard";
 import { supabaseClient } from "../config/supabase-clients";
+import NewQuestionDialog from "@/components/ProblemModal";
+
 
 const practiceFeedDesc: string = "Select a problem that aligns with your interests and skill level. Detailed instructions are provided within each problem."
 
 type Problem = {
-	question: string;
-	description: string;
 	answer: string;
-	difficulty: string;
+	correct: boolean;
 	course_id: number;
-	points: number;
+	description: string;
+	difficulty: string;
 	id: number;
+	points: number;
+	question: string;
 }
 
 
 const supabase = supabaseClient
 const { data, error } = await supabase.auth.refreshSession()
-const { session, user } = data
+const { user } = data
+
+
+
+
 
 const PracticeFeed: React.FC = () => {
 	const [teacher, setTeacher] = useState()
-	const [teacherData, setTeacherData] = useState()
-	const [courseID, setCourseID] = useState()
 	const [problems, setProblems] = useState<Problem[]>([])
+
+
+
+
+
+	const fetchProblems = async (id_course: Number) => {
+		const { data } = await supabaseClient
+			.from('problem')
+			.select('*')
+			.eq('course_id', id_course)
+		setProblems(data)
+	}
+
+	const fetchIDTeacher = async () => {
+		const { data, error } = await supabaseClient
+			.from('course')
+			.select('id')
+			.eq('email', user?.email)
+		if (error) {
+			console.log(error)
+		} else {
+			fetchProblems(data[0].id)
+		}
+	}
+
+
+	const fetchIDStudent = async () => {
+		const { data } = await supabaseClient
+			.from('student')
+			.select('course_id')
+			.eq('email', user?.email)
+		if (error) {
+			console.log(error)
+		} else {
+			fetchProblems(data[0].course_id)
+		}
+	}
 
 
 	useEffect(() => {
@@ -44,7 +86,10 @@ const PracticeFeed: React.FC = () => {
 						setTeacher(data?.length)
 					}
 					fetchRoles()
-
+				} if (teacher) {
+					fetchIDTeacher()
+				} else {
+					fetchIDStudent()
 				}
 
 			} catch (err) {
@@ -52,44 +97,6 @@ const PracticeFeed: React.FC = () => {
 			}
 		}
 		fetchUser()
-
-
-		const fetchCourse = async () => {
-
-			if (teacher) {
-				const fetchCourseTeacher = async () => {
-					const { data } = await supabaseClient
-						.from('teacher')
-						.select('id')
-						.eq('email', user?.email)
-					setCourseID(data[0].id)
-				}
-				fetchCourseTeacher()
-			} else {
-				const fetchCourseStudent = async () => {
-					const { data } = await supabaseClient
-						.from('student')
-						.select('course_id')
-						.eq('email', user?.email)
-					setCourseID(data[0].course_id)
-				}
-				fetchCourseStudent()
-			}
-		}
-		fetchCourse()
-
-
-		const fetchProblems = async () => {
-			const { data } = await supabaseClient
-				.from('problem')
-				.select('*')
-				.eq('course_id', courseID)
-			setProblems(data[0])
-		}
-
-
-
-
 	}, [])
 
 
@@ -101,22 +108,27 @@ const PracticeFeed: React.FC = () => {
 
 
 
-	if (teacher) {
-		console.log(problems)
-		return (
+	return (
+		<div className="flex justify-center">
+			<div className="flex grid-columns-1 md:grid-columns-2 lg:grid-columns-4 mt-40 mr-[5%] ml-[5%] gap-10">
+				{
+					problems.map((problem: Problem) => {
+						return (
+							<ProblemCard title={problem.question} diffuculty={problem.difficulty} description={problem.description} answer={problem.answer} id={problem.id} points={problem.points} />
+						)
+					})
 
-			<h1 className="mt-40">Teacher</h1>
+				}
+			</div>
+			{teacher ? (
+				<NewQuestionDialog />
+			) : (
+				<></>
+			)
 
-		)
-	} else {
-		console.log(teacherData)
-		console.log(user)
-		return (
-
-			<h1 className="mt-40">Student</h1>
-		)
-	}
-
+			}
+		</div>
+	)
 
 
 

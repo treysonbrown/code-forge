@@ -52,6 +52,9 @@ const TeacherRegristrationForm = () => {
 		}));
 	};
 
+
+
+
 	const createCourse = async () => {
 		const { data } = await supabaseClient
 			.from('teacher')
