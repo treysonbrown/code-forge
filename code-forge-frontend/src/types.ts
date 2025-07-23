@@ -18,6 +18,7 @@ export type Problem = {
 	difficulty: string;
 	answer: string;
 	points: number;
+	correct: boolean;
 }
 
 

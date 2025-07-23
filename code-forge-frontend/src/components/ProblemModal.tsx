@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button } from "@/components/ui/button"
 import {
 	Dialog,
@@ -19,20 +19,25 @@ import { supabaseClient } from "../config/supabase-clients";
 import { Textarea } from "./ui/textarea";
 
 
+const supabase = supabaseClient
+const { data, error } = await supabase.auth.refreshSession()
+const { user } = data
 
 
 const NewQuestionDialog = () => {
 
+	const [courseID, setCourseID] = useState<Number>()
 	const [open, setOpen] = useState<boolean>(false)
-
 	const [formData, setFormData] = useState<Problem>({
 		question: "",
 		description: "",
-		course_id: 1234,
+		course_id: courseID,
 		difficulty: "Easy",
 		answer: "",
+		correct: false,
 		points: 0,
 	})
+	const [teacher, setTeacher] = useState()
 
 	const AddProblem = async (newProblem: Problem) => {
 		const { error } = await supabaseClient
@@ -59,9 +64,35 @@ const NewQuestionDialog = () => {
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 		console.log(formData)
-		AddProblem(formData)
+		fetchIDTeacher()
 		setOpen(false)
 	}
+
+
+	const fetchIDTeacher = async () => {
+		const { data, error } = await supabaseClient
+			.from('course')
+			.select('id')
+			.eq('email', user?.email)
+		setCourseID(data[0].id)
+		if (error) {
+			console.log(error)
+		} else {
+			AddProblem({
+				question: formData.question,
+				description: formData.description,
+				course_id: data[0].id,
+				answer: formData.answer,
+				correct: false,
+				points: formData.points,
+				difficulty: formData.difficulty,
+			})
+		}
+	}
+
+
+
+
 
 
 
