@@ -4,6 +4,7 @@ import { supabaseClient } from "@/config/supabase-clients";
 import ResourceCard from "../components/ResourceCard";
 import ResourceModal from "@/components/ResourceModal";
 import { useLocalStorage } from "usehooks-ts";
+import ToastContainer from "rsuite/esm/toaster/ToastContainer";
 
 
 
@@ -59,34 +60,40 @@ const HelpfulResources = () => {
 
 	if (storedTeacher) {
 		return (
-			<>
-				<Header whiteText="HELPFUL" blueText="RESOURCES" />
-				<div className="ml-[5%] mr-[5%] mt-20 mb-20">
-					<div className="flex flex-col gap-5">
-						{
-							resources.map((resource) => {
-								return <ResourceCard title={resource.title} description={resource.description} link={resource.link} />
-							})
-						}
+			<div>
+				<ToastContainer />
+				<div>
+					<Header whiteText="HELPFUL" blueText="RESOURCES" />
+					<div className="ml-[5%] mr-[5%] mt-20 mb-20">
+						<div className="flex flex-col gap-5">
+							{
+								resources.map((resource) => {
+									return <ResourceCard title={resource.title} description={resource.description} link={resource.link} />
+								})
+							}
+						</div>
 					</div>
+					<ResourceModal />
 				</div>
-				<ResourceModal />
-			</>
+			</div>
 		)
 	} else if (!storedTeacher) {
 		return (
-			<>
-				<Header whiteText="HELPFUL" blueText="RESOURCES" />
-				<div className="ml-[5%] mr-[5%] mt-20 mb-20">
-					<div className="flex flex-col gap-5">
-						{
-							resources.map((resource) => {
-								return <ResourceCard title={resource.title} description={resource.description} link={resource.link} />
-							})
-						}
+			<div>
+				<ToastContainer />
+				<div>
+					<Header whiteText="HELPFUL" blueText="RESOURCES" />
+					<div className="ml-[5%] mr-[5%] mt-20 mb-20">
+						<div className="flex flex-col gap-5">
+							{
+								resources.map((resource) => {
+									return <ResourceCard title={resource.title} description={resource.description} link={resource.link} />
+								})
+							}
+						</div>
 					</div>
 				</div>
-			</>
+			</div>
 		)
 	}
 

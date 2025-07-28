@@ -17,6 +17,7 @@ import { useState } from "react"
 import type { Problem, Resource } from '../types'
 import { supabaseClient } from "../config/supabase-clients";
 import { Textarea } from "./ui/textarea";
+import { toast } from "react-toastify";
 
 
 const supabase = supabaseClient
@@ -28,12 +29,14 @@ const ResourceModal = () => {
 
 	const [open, setOpen] = useState<boolean>(false)
 	const [courseID, setCourseId] = useState<Number>()
+	const storedCourseID = JSON.parse(localStorage.getItem('courseID'))
+	const storedTeacher = JSON.parse(localStorage.getItem('teacher'))
 	const [formData, setFormData] = useState<Resource>({
 
 		title: "",
 		description: "",
 		link: "",
-		course_id: courseID,
+		course_id: storedTeacher,
 	})
 
 	const AddResource = async (newResource: Resource) => {
@@ -43,32 +46,20 @@ const ResourceModal = () => {
 			.single();
 
 		if (error) {
+			toast.error("Error adding to resources", {
+				position: "top-center"
+			})
 			console.log(error.hint)
 			console.log(formData)
 		} else {
 			console.log("success")
+			toast.success("Added to resources", {
+				position: "top-center"
+			})
 		}
 	}
 
 
-	const fetchIDTeacher = async () => {
-		const { data, error } = await supabaseClient
-			.from('course')
-			.select('id')
-			.eq('email', user?.email)
-		if (error) {
-			console.log(error)
-		} else {
-			setCourseId(data[0].id)
-			const new_resource: Resource = {
-				title: formData.title,
-				description: formData.description,
-				link: formData.description,
-				course_id: courseID
-			}
-			AddResource(new_resource)
-		}
-	}
 
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -82,7 +73,14 @@ const ResourceModal = () => {
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 		console.log(formData)
-		fetchIDTeacher()
+		const new_resource: Resource = {
+			title: formData.title,
+			description: formData.description,
+			link: formData.description,
+			course_id: storedCourseID
+		}
+
+		AddResource(new_resource)
 		setOpen(false)
 	}
 
