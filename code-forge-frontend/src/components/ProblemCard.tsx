@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { ToastContainer, toast } from 'react-toastify';
 import { Button } from "@/components/ui/button"
 import {
 	Dialog,
@@ -58,13 +59,16 @@ const ProblemCard: React.FC<ProblemCardProps> = ({ title, diffuculty = "none", d
 		console.log(userAnswer)
 		console.log(answer)
 		if (userAnswer === answer) {
-			updateProblem()
-			alert("Correct!")
+			toast.success("Correct answer!", {
+				position: "top-center"
+			})
+			setOpen(false)
 		} else {
-			alert("Sorry that is incorrect")
+			toast.error("Wrong answer", {
+				position: "top-center"
+			})
 		}
 
-		setOpen(false)
 	}
 
 	return (

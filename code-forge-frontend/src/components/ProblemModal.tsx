@@ -17,6 +17,7 @@ import { useState } from "react"
 import type { Problem } from '../types'
 import { supabaseClient } from "../config/supabase-clients";
 import { Textarea } from "./ui/textarea";
+import { toast } from "react-toastify";
 
 
 const supabase = supabaseClient
@@ -48,8 +49,13 @@ const NewQuestionDialog = () => {
 		if (error) {
 			console.log(error.hint)
 			console.log(formData)
+			toast.error("There was an error creating the problem", {
+				position: "top-center"
+			})
 		} else {
-			console.log("success")
+			toast.success("Problem successfully created.", {
+				position: "top-center"
+			})
 		}
 	}
 
