@@ -15,6 +15,7 @@ type StatType = {
 }
 
 const PersonalStats = () => {
+	const storedTeacher = JSON.parse(localStorage.getItem('teacher'))
 	const [stats, setStats] = useState<StatType[] | null>([{
 		name: "",
 		email: "",
@@ -28,34 +29,36 @@ const PersonalStats = () => {
 
 	useEffect(() => {
 
-		const fetchUser = async () => {
-			try {
-				const { data: { user }, error } = await supabase.auth.getUser();
+		if (!storedTeacher) {
+			const fetchUser = async () => {
+				try {
+					const { data: { user }, error } = await supabase.auth.getUser();
 
-				if (error) {
-					console.log(error)
-				}
-				if (user) {
-					const fetchStats = async () => {
-						const { data } = await supabaseClient
-							.from('student')
-							.select('*')
-							.eq('email', user.email)
-						setStats(data)
+					if (error) {
+						console.log(error)
 					}
-					fetchStats()
+					if (user) {
+						const fetchStats = async () => {
+							const { data } = await supabaseClient
+								.from('student')
+								.select('*')
+								.eq('email', user.email)
+							setStats(data)
+						}
+						fetchStats()
 
+					}
+
+				} catch (err) {
+					console.log('No')
 				}
-
-			} catch (err) {
-				console.log('No')
 			}
+			fetchUser()
 		}
 
 
 		console.log(stats)
 
-		fetchUser()
 
 	}, [])
 

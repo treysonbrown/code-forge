@@ -12,7 +12,8 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { supabaseClient } from "@/config/supabase-clients"
 import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, Navigate, useNavigate } from "react-router-dom"
+import { Nav } from "rsuite"
 
 type FormData = {
 	email: string;
@@ -115,7 +116,9 @@ const LoginCard = () => {
 			console.log(error)
 		}
 		else {
-			fetchUser()
+			if (user) {
+				return <Navigate to="/" />
+			}
 		}
 	}
 

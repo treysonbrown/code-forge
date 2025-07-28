@@ -46,11 +46,11 @@ const ResourceModal = () => {
 			.single();
 
 		if (error) {
+			console.log(error.hint)
+			console.log(formData)
 			toast.error("Error adding to resources", {
 				position: "top-center"
 			})
-			console.log(error.hint)
-			console.log(formData)
 		} else {
 			console.log("success")
 			toast.success("Added to resources", {
