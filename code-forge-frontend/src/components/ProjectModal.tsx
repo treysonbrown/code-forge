@@ -27,7 +27,7 @@ const ProjectModal = () => {
 	const [formData, setFormData] = useState<Project>({
 		project_user: "Treyson",
 		description: "",
-		course_id: 1234,
+		course_id: course_id,
 		title: "",
 		likes: 0
 	})

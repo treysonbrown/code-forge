@@ -3,11 +3,14 @@ import Header from "../components/Header";
 import { supabaseClient } from "@/config/supabase-clients";
 import ResourceCard from "../components/ResourceCard";
 import ResourceModal from "@/components/ResourceModal";
+import { useLocalStorage } from "usehooks-ts";
 
 
 
 
 const supabase = supabaseClient
+const { data, error } = await supabase.auth.refreshSession()
+const { user } = data
 
 
 type ResourceResponse = {
@@ -19,62 +22,42 @@ type ResourceResponse = {
 const HelpfulResources = () => {
 	const [loading, setLoading] = useState<boolean>(false);
 	const [error, setError] = useState(null);
-	const [data, setData] = useState([]);
 	const [resources, setResources] = useState<ResourceResponse[]>([])
-	const [teacher, setTeacher] = useState<any>()
+
+	const storedCourseID = JSON.parse(localStorage.getItem('courseID'))
+	const storedTeacher = JSON.parse(localStorage.getItem('teacher'))
+
+
+
+	const fetchResources = async (course_id: Number) => {
+		setLoading(true)
+		const { data, error } = await supabaseClient
+			.from('resources')
+			.select('*')
+			.eq('course_id', course_id)
+			.order('id', { ascending: false })
+
+		if (error) {
+			console.log(error)
+		} else {
+			console.log(data)
+			setResources(data)
+			setError(null)
+			setLoading(false)
+		}
+	}
+
+
+
 
 
 	useEffect(() => {
-		const fetchUser = async () => {
-			try {
-				const { data: { user }, error } = await supabase.auth.getUser();
-
-				if (error) {
-					console.log(error)
-				}
-				if (user) {
-					const fetchRoles = async () => {
-						const { data } = await supabaseClient
-							.from('teacher')
-							.select('name')
-							.eq('email', user.email)
-						setTeacher(data?.length)
-					}
-					fetchRoles()
-
-				}
-
-			} catch (err) {
-				console.log('No')
-			}
-		}
-
-
-
-		fetchUser()
-
-		const fetchResources = async () => {
-			setLoading(true)
-			const { data, error } = await supabaseClient
-				.from('resources')
-				.select('*')
-				.eq('course_id', 1234)
-				.order('id', { ascending: false })
-
-			if (error) {
-				console.log(error)
-			} else {
-				console.log(data)
-				setResources(data)
-				setError(null)
-				setLoading(false)
-			}
-		}
-		fetchResources()
-
+		console.log(storedCourseID)
+		fetchResources(storedCourseID)
 	}, [])
 
-	if (teacher) {
+
+	if (storedTeacher) {
 		return (
 			<>
 				<Header whiteText="HELPFUL" blueText="RESOURCES" />
@@ -90,7 +73,7 @@ const HelpfulResources = () => {
 				<ResourceModal />
 			</>
 		)
-	} else if (!teacher) {
+	} else if (!storedTeacher) {
 		return (
 			<>
 				<Header whiteText="HELPFUL" blueText="RESOURCES" />

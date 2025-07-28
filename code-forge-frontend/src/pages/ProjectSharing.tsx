@@ -10,6 +10,8 @@ import ProjectModal from "@/components/ProjectModal";
 
 
 const supabase = supabaseClient
+const { data, error } = await supabase.auth.refreshSession()
+const { user } = data
 
 
 
@@ -17,58 +19,32 @@ const PracticeFeed: React.FC = () => {
 	const [loading, setLoading] = useState<boolean>(false);
 	const [error, setError] = useState(null);
 	const [data, setData] = useState<Project[]>([]);
-	const [teacher, setTeacher] = useState<any>()
+	const storedCourseID = JSON.parse(localStorage.getItem('courseID'))
 
+
+
+	const fetchProjects = async (course_id: Number) => {
+		setLoading(true)
+		const { data, error } = await supabaseClient
+			.from('project')
+			.select('*')
+			.eq('course_id', course_id)
+			.order('id', { ascending: false })
+
+		if (error) {
+			console.log(error)
+		} else {
+			console.log(data)
+			setData(data)
+			setError(null)
+			setLoading(false)
+		}
+	}
 
 	useEffect(() => {
+		fetchProjects(storedCourseID)
+	})
 
-		const fetchUser = async () => {
-			try {
-				const { data: { user }, error } = await supabase.auth.getUser();
-
-				if (error) {
-					console.log(error)
-				}
-				if (user) {
-					const fetchRoles = async () => {
-						const { data } = await supabaseClient
-							.from('teacher')
-							.select('name')
-							.eq('email', user.email)
-						setTeacher(data?.length)
-					}
-					fetchRoles()
-
-				}
-
-			} catch (err) {
-				console.log('No')
-			}
-		}
-
-
-		fetchUser()
-
-		const fetchProjects = async () => {
-			setLoading(true)
-			const { data, error } = await supabaseClient
-				.from('project')
-				.select('*')
-				.eq('course_id', 1234)
-				.order('id', { ascending: false })
-
-			if (error) {
-				console.log(error)
-			} else {
-				console.log(data)
-				setData(data)
-				setError(null)
-				setLoading(false)
-			}
-		}
-		fetchProjects()
-
-	}, [])
 
 
 

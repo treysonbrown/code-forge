@@ -19,17 +19,21 @@ import { supabaseClient } from "../config/supabase-clients";
 import { Textarea } from "./ui/textarea";
 
 
+const supabase = supabaseClient
+const { data, error } = await supabase.auth.refreshSession()
+const { user } = data
 
 
 const ResourceModal = () => {
 
 	const [open, setOpen] = useState<boolean>(false)
+	const [courseID, setCourseId] = useState<Number>()
 	const [formData, setFormData] = useState<Resource>({
 
 		title: "",
 		description: "",
 		link: "",
-		course_id: 1234,
+		course_id: courseID,
 	})
 
 	const AddResource = async (newResource: Resource) => {
@@ -46,6 +50,27 @@ const ResourceModal = () => {
 		}
 	}
 
+
+	const fetchIDTeacher = async () => {
+		const { data, error } = await supabaseClient
+			.from('course')
+			.select('id')
+			.eq('email', user?.email)
+		if (error) {
+			console.log(error)
+		} else {
+			setCourseId(data[0].id)
+			const new_resource: Resource = {
+				title: formData.title,
+				description: formData.description,
+				link: formData.description,
+				course_id: courseID
+			}
+			AddResource(new_resource)
+		}
+	}
+
+
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
 		const { name, value } = e.target
 		setFormData((prev) => ({
@@ -57,7 +82,7 @@ const ResourceModal = () => {
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 		console.log(formData)
-		AddResource(formData)
+		fetchIDTeacher()
 		setOpen(false)
 	}
 

@@ -52,3 +52,8 @@ export type Project = {
 	likes: number;
 	project_user: string;
 }
+
+export type User = {
+	courseID: number;
+	teacher: boolean;
+}

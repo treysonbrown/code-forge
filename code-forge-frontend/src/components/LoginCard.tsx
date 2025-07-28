@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { supabaseClient } from "@/config/supabase-clients"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 
 type FormData = {
@@ -19,13 +19,84 @@ type FormData = {
 	password: string;
 }
 
+
 const supabase = supabaseClient
+const { data, error } = await supabase.auth.refreshSession()
+const { user } = data
+
 const LoginCard = () => {
 
 	const [formData, setFormData] = useState<FormData>({
 		email: '',
 		password: ''
 	});
+	const [teacher, setTeacher] = useState()
+
+	const fetchIDTeacher = async () => {
+		const { data, error } = await supabaseClient
+			.from('course')
+			.select('id')
+			.eq('email', user?.email)
+		if (error) {
+			console.log(error)
+		} else {
+			localStorage.setItem('courseID', JSON.stringify(data[0].id))
+			console.log("local set")
+		}
+	}
+
+
+	const fetchIDStudent = async () => {
+		const { data } = await supabaseClient
+			.from('student')
+			.select('course_id')
+			.eq('email', user?.email)
+		if (error) {
+			console.log(error)
+		} else {
+			localStorage.setItem('courseID', JSON.stringify(data[0].course_id))
+			console.log("local set")
+		}
+	}
+
+
+	const fetchUser = async () => {
+		try {
+			const { data: { user }, error } = await supabase.auth.getUser();
+
+			if (error) {
+				console.log(error)
+			}
+			if (user) {
+				console.log("test")
+				const fetchRoles = async () => {
+					try {
+						const { data } = await supabaseClient
+							.from('teacher')
+							.select('name')
+							.eq('email', user.email)
+						localStorage.setItem('teacher', JSON.stringify(data?.length))
+						console.log("teacher set")
+						if (teacher) {
+							fetchIDTeacher()
+						}
+					} catch {
+						fetchIDStudent()
+						localStorage.setItem('teacher', JSON.stringify([]))
+					}
+				}
+				fetchRoles()
+			}
+
+		} catch (err) {
+			console.log('No')
+		}
+	}
+
+
+
+
+
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
@@ -42,6 +113,9 @@ const LoginCard = () => {
 		})
 		if (error) {
 			console.log(error)
+		}
+		else {
+			fetchUser()
 		}
 	}
 

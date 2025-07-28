@@ -5,21 +5,14 @@ import { useEffect, useState } from "react";
 import type { Student } from "@/types";
 import Podium from "@/components/Podium";
 
-
-const supabase = supabaseClient
-const { data, error } = await supabase.auth.refreshSession()
-const { user } = data
-
-
-
 const Leaderboard = () => {
 
 	const [results, setResults] = useState<Student[] | null | undefined>([])
 	const [podium, setPodium] = useState(["First", "Second", "Third"])
-	const [teacher, setTeacher] = useState()
+	const storedCourseID = JSON.parse(localStorage.getItem('courseID'))
 
 
-	const fetchStudents = async (course_id: Number) => {
+	const fetchLeaders = async (course_id: Number) => {
 		const { data, error } = await supabaseClient
 			.from('student')
 			.select('*')
@@ -38,76 +31,11 @@ const Leaderboard = () => {
 	}
 
 
-	const fetchIDTeacher = async () => {
-		const { data, error } = await supabaseClient
-			.from('course')
-			.select('id')
-			.eq('email', user?.email)
-		if (error) {
-			console.log(error)
-		} else {
-			fetchStudents(data[0].id)
-		}
-	}
-
-
-	const fetchIDStudent = async () => {
-		const { data } = await supabaseClient
-			.from('student')
-			.select('course_id')
-			.eq('email', user?.email)
-		if (error) {
-			console.log(error)
-		} else {
-			fetchStudents(data[0].course_id)
-		}
-	}
 
 
 	useEffect(() => {
-
-		const fetchLeader = async () => {
-			try {
-				const { data: { user }, error } = await supabase.auth.getUser();
-				if (error) {
-					console.log(error)
-				}
-				const fetchRoles = async () => {
-					const { data, error } = await supabaseClient
-						.from('teacher')
-						.select('name')
-						.eq('email', user.email)
-					if (error) {
-						console.log(error)
-					} else {
-						setTeacher(data?.length)
-					}
-				}
-				fetchRoles()
-				if (teacher) {
-					fetchIDTeacher()
-				} else {
-					fetchIDStudent()
-				}
-
-			} catch (err) {
-				console.log('No')
-			}
-
-		}
-
-		fetchLeader()
-
-
-
-
-		console.log(results)
-
+		fetchLeaders(storedCourseID)
 	}, [])
-
-
-
-
 
 	return (
 		<div className="flex flex-col" >
