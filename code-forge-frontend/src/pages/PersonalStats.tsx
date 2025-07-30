@@ -29,22 +29,22 @@ const PersonalStats = () => {
 		problems_solved: 0
 	})
 
-	const studentStats = async () => {
+	const studentStats = async (email: string) => {
 		const { data } = await supabase
 			.from('student')
 			.select('*')
-			.eq('email', '26browntrel@washk12.org')
+			.eq('email', email)
 		if (data && data.length > 0) {
 			console.log(data)
 			setStats(data[0])
 		}
 	}
 
-	const teacherStats = async () => {
+	const teacherStats = async (email: string) => {
 		const { data } = await supabase
 			.from('teacher')
 			.select('*')
-			.eq('email', 'tr3ysonb@gmail.com')
+			.eq('email', email)
 		if (data && data.length > 0) {
 			console.log(data)
 			setStats(data[0])
@@ -53,11 +53,27 @@ const PersonalStats = () => {
 
 
 	useEffect(() => {
-		if (!storedTeacher) {
-			studentStats()
-		} else {
-			teacherStats()
+		const fetchUser = async () => {
+			try {
+				const { data: { user }, error } = await supabase.auth.getUser();
+
+				if (error) {
+					console.log(error)
+				}
+				if (user) {
+					if (!storedTeacher) {
+						studentStats(user.email)
+					} else {
+						teacherStats(user.email)
+					}
+				}
+			}
+			catch (err) {
+				console.log(err)
+			}
 		}
+		fetchUser()
+
 	}, [])
 
 
