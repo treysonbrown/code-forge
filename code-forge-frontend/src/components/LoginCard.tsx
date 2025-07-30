@@ -12,8 +12,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { supabaseClient } from "@/config/supabase-clients"
 import { useEffect, useState } from "react"
-import { Link, Navigate, useNavigate } from "react-router-dom"
-import { Nav } from "rsuite"
+import { Link } from "react-router-dom"
 
 type FormData = {
 	email: string;
@@ -26,12 +25,28 @@ const { data, error } = await supabase.auth.refreshSession()
 const { user } = data
 
 const LoginCard = () => {
-
 	const [formData, setFormData] = useState<FormData>({
 		email: '',
 		password: ''
 	});
-	const [teacher, setTeacher] = useState()
+
+	const getRole = async () => {
+		const { data, error } = await supabaseClient
+			.from('teacher')
+			.select('*')
+			.eq('email', user?.email)
+		if (error) {
+			console.log(error)
+		} else {
+			if (data && data.length > 0) {
+				fetchIDTeacher()
+			} else {
+				fetchIDStudent()
+			}
+		}
+
+
+	}
 
 	const fetchIDTeacher = async () => {
 		const { data, error } = await supabaseClient
@@ -42,7 +57,9 @@ const LoginCard = () => {
 			console.log(error)
 		} else {
 			localStorage.setItem('courseID', JSON.stringify(data[0].id))
+			localStorage.setItem('teacher', JSON.stringify(true))
 			console.log("local set")
+			console.log(`teacher id ${data[0].id}`)
 		}
 	}
 
@@ -55,13 +72,13 @@ const LoginCard = () => {
 		if (error) {
 			console.log(error)
 		} else {
-			localStorage.setItem('courseID', JSON.stringify(data[0].course_id))
-			console.log("local set")
+			localStorage.setItem('courseID', JSON.stringify(data && data[0].course_id))
+			console.log(`student id ${data && data[0].course_id}`)
 		}
 	}
 
 
-	const fetchUser = async () => {
+	const fetchUserData = async () => {
 		try {
 			const { data: { user }, error } = await supabase.auth.getUser();
 
@@ -69,28 +86,23 @@ const LoginCard = () => {
 				console.log(error)
 			}
 			if (user) {
-				console.log("test")
-				const fetchRoles = async () => {
-					try {
-						const { data } = await supabaseClient
-							.from('teacher')
-							.select('name')
-							.eq('email', user.email)
-						localStorage.setItem('teacher', JSON.stringify(data?.length))
-						console.log("teacher set")
-						if (teacher) {
-							fetchIDTeacher()
-						}
-					} catch {
-						fetchIDStudent()
-						localStorage.setItem('teacher', JSON.stringify([]))
-					}
-				}
-				fetchRoles()
+				getRole()
+
+
 			}
 
 		} catch (err) {
 			console.log('No')
+		}
+	}
+
+	const signIn = async () => {
+		const { error } = await supabase.auth.signInWithPassword({
+			email: formData.email,
+			password: formData.password,
+		})
+		if (error) {
+			console.log(error)
 		}
 	}
 
@@ -108,20 +120,19 @@ const LoginCard = () => {
 	};
 
 	const handleSumbit = async () => {
-		const { error } = await supabase.auth.signInWithPassword({
-			email: formData.email,
-			password: formData.password,
+		signIn().then(() => {
+			fetchUserData()
 		})
-		if (error) {
-			console.log(error)
-		}
-		else {
-			if (user) {
-				return <Navigate to="/" />
-			}
-		}
 	}
 
+	useEffect(() => {
+		const removeSession = () => {
+			localStorage.removeItem('courseID')
+			localStorage.removeItem('teacher')
+			supabaseClient.auth.initialize
+		}
+		removeSession()
+	}, [])
 
 
 	return (

@@ -3,15 +3,11 @@ import Header from "../components/Header";
 import { supabaseClient } from "@/config/supabase-clients";
 import ResourceCard from "../components/ResourceCard";
 import ResourceModal from "@/components/ResourceModal";
-import { useLocalStorage } from "usehooks-ts";
 import ToastContainer from "rsuite/esm/toaster/ToastContainer";
 
 
 
 
-const supabase = supabaseClient
-const { data, error } = await supabase.auth.refreshSession()
-const { user } = data
 
 
 type ResourceResponse = {
@@ -25,8 +21,8 @@ const HelpfulResources = () => {
 	const [error, setError] = useState(null);
 	const [resources, setResources] = useState<ResourceResponse[]>([])
 
-	const storedCourseID = JSON.parse(localStorage.getItem('courseID'))
-	const storedTeacher = JSON.parse(localStorage.getItem('teacher'))
+	const storedCourseID: any = JSON.parse(localStorage.getItem('courseID'))
+	const storedTeacher: any = JSON.parse(localStorage.getItem('teacher'))
 
 
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { use, useEffect } from "react";
 import { Button } from "@/components/ui/button"
 import {
 	Dialog,
@@ -20,17 +20,79 @@ import { supabaseClient } from "../config/supabase-clients";
 
 
 
+const supabase = supabaseClient
+const storedCourseID = JSON.parse(localStorage.getItem('courseID'))
+
 const ProjectModal = () => {
 
 	const [open, setOpen] = useState<boolean>(false)
 
 	const [formData, setFormData] = useState<Project>({
-		project_user: "Treyson",
+		project_user: "",
 		description: "",
-		course_id: course_id,
+		course_id: storedCourseID,
 		title: "",
 		likes: 0
 	})
+
+
+
+	useEffect(() => {
+
+		const fetchUser = async () => {
+			try {
+				const { data: { user }, error } = await supabase.auth.getUser();
+
+				if (error) {
+					console.log(error)
+				}
+				if (user) {
+					const fetchStats = async () => {
+						const { data } = await supabaseClient
+							.from('student')
+							.select('name')
+							.eq('email', user.email)
+						if (data && data.length > 0) {
+							setFormData({
+								project_user: data[0].name,
+								description: "",
+								course_id: storedCourseID,
+								title: "",
+								likes: 0,
+							})
+						} else {
+							const { data } = await supabaseClient
+								.from('teacher')
+								.select('*')
+								.eq('email', user.email)
+							if (data && data.length > 0) {
+								setFormData({
+									project_user: data[0].name,
+									description: "",
+									course_id: storedCourseID,
+									title: "",
+									likes: 0,
+								})
+							}
+
+						}
+					}
+					fetchStats()
+
+				}
+
+			} catch (err) {
+				console.log('No')
+			}
+		}
+
+
+
+		fetchUser()
+
+	}, [])
+
+
 
 	const AddProject = async (newProject: Project) => {
 		const { error } = await supabaseClient

@@ -35,6 +35,12 @@ const Menu = () => {
 		}
 	}
 
+	const signOut = () => {
+		sessionStorage.removeItem('courseID')
+		sessionStorage.removeItem('teacher')
+		supabase.auth.signOut()
+	}
+
 
 
 	useEffect(() => {
@@ -49,6 +55,7 @@ const Menu = () => {
 		}
 
 	}, []);
+
 
 
 
@@ -87,7 +94,7 @@ const Menu = () => {
 						<Link to="/profile" className={linkStyle} onClick={() => setHidden("hidden")}>Profile</Link>
 					</li>
 					<li>
-						<button className="text-white underline mt-0" onClick={() => supabase.auth.signOut()}>Log out</button>
+						<button className="text-white underline mt-0" onClick={signOut}>Log out</button>
 					</li>
 				</ul>
 			</div>

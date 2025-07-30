@@ -5,13 +5,15 @@ import LeaderBoardCard from "../components/LeaderBoardCard"
 import PersonalStatsCard from "../components/PersonalStatsCard"
 import PracticeFeedCard from "../components/PracticeFeedCard"
 import ProjectSharingCard from "../components/ProjectSharingCard"
-import ProjectModal from "./ProjectModal"
 
 const Home = () => {
+
+
+
 	return (
 		<>
 			<div className="">
-				<Background subText="PRACTICE CODING BOTH IN AND OUT OF THE CLASSROOM" />
+				<Background />
 
 
 

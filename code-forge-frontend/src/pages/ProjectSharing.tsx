@@ -15,35 +15,24 @@ const { user } = data
 
 
 
-const PracticeFeed: React.FC = () => {
-	const [loading, setLoading] = useState<boolean>(false);
-	const [error, setError] = useState(null);
-	const [data, setData] = useState<Project[]>([]);
+const ProjectSharing: React.FC = () => {
+	const [projects, setProjects] = useState<Project[]>([])
 	const storedCourseID = JSON.parse(localStorage.getItem('courseID'))
 
-
-
-	const fetchProjects = async (course_id: Number) => {
-		setLoading(true)
-		const { data, error } = await supabaseClient
+	const fetchProblems = async (courseID: number) => {
+		const { data } = await supabaseClient
 			.from('project')
 			.select('*')
-			.eq('course_id', course_id)
+			.eq('course_id', courseID)
 			.order('id', { ascending: false })
-
-		if (error) {
-			console.log(error)
-		} else {
-			console.log(data)
-			setData(data)
-			setError(null)
-			setLoading(false)
-		}
+		setProjects(data)
 	}
 
 	useEffect(() => {
-		fetchProjects(storedCourseID)
-	})
+		console.log(storedCourseID)
+		fetchProblems(storedCourseID)
+	}, [])
+
 
 
 
@@ -53,8 +42,8 @@ const PracticeFeed: React.FC = () => {
 			<Header whiteText="PROJECT" blueText="SHARE" />
 
 			<div className="flex flex-col justify-center mr-[5%] ml-[5%] mt-20 gap-10 mb-20">
-				{data.map((project) => (
-					<Post title={project.title} description={project.description} project_user={project.project_user} likes={project.likes} />
+				{projects.map((project, i) => (
+					<Post title={project.title} description={project.description} project_user={project.project_user} likes={project.likes} course_id={storedCourseID} key={i} />
 				))}
 			</div>
 			<ProjectModal />
@@ -62,4 +51,4 @@ const PracticeFeed: React.FC = () => {
 	)
 }
 
-export default PracticeFeed;
+export default ProjectSharing;
