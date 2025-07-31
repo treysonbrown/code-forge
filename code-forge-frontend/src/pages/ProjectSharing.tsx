@@ -19,11 +19,11 @@ const ProjectSharing: React.FC = () => {
 	const [projects, setProjects] = useState<Project[]>([])
 	const storedCourseID = JSON.parse(localStorage.getItem('courseID'))
 
-	const fetchProblems = async (courseID: number) => {
+	const fetchProblems = async () => {
 		const { data } = await supabaseClient
 			.from('project')
 			.select('*')
-			.eq('course_id', courseID)
+			.eq('course_id', storedCourseID)
 			.order('id', { ascending: false })
 		setProjects(data)
 	}
@@ -46,7 +46,7 @@ const ProjectSharing: React.FC = () => {
 					<Post title={project.title} description={project.description} project_user={project.project_user} likes={project.likes} course_id={storedCourseID} key={i} />
 				))}
 			</div>
-			<ProjectModal />
+			<ProjectModal onProjectChange={fetchProblems} />
 		</>
 	)
 }

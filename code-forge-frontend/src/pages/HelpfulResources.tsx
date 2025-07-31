@@ -16,6 +16,7 @@ type ResourceResponse = {
 	link: string
 }
 
+
 const HelpfulResources = () => {
 	const [loading, setLoading] = useState<boolean>(false);
 	const [error, setError] = useState(null);
@@ -26,12 +27,12 @@ const HelpfulResources = () => {
 
 
 
-	const fetchResources = async (course_id: Number) => {
+	const fetchResources = async () => {
 		setLoading(true)
 		const { data, error } = await supabaseClient
 			.from('resources')
 			.select('*')
-			.eq('course_id', course_id)
+			.eq('course_id', storedCourseID)
 			.order('id', { ascending: false })
 
 		if (error) {
@@ -50,7 +51,7 @@ const HelpfulResources = () => {
 
 	useEffect(() => {
 		console.log(storedCourseID)
-		fetchResources(storedCourseID)
+		fetchResources()
 	}, [])
 
 
@@ -69,7 +70,7 @@ const HelpfulResources = () => {
 							}
 						</div>
 					</div>
-					<ResourceModal />
+					<ResourceModal onResourceChange={fetchResources} />
 				</div>
 			</div>
 		)

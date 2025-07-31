@@ -23,7 +23,11 @@ import { supabaseClient } from "../config/supabase-clients";
 const supabase = supabaseClient
 const storedCourseID = JSON.parse(localStorage.getItem('courseID'))
 
-const ProjectModal = () => {
+type ProjectModalProp = {
+	onProjectChange: () => void;
+}
+
+const ProjectModal: React.FC<ProjectModalProp> = ({ onProjectChange }) => {
 
 	const [open, setOpen] = useState<boolean>(false)
 
@@ -104,7 +108,7 @@ const ProjectModal = () => {
 			console.log(error.hint)
 			console.log(formData)
 		} else {
-			console.log("success")
+			onProjectChange()
 		}
 	}
 

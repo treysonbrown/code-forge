@@ -39,9 +39,11 @@ const NewQuestionDialog: React.FC<NewQuestionDialogProp> = ({ onQuestionAdded })
 	})
 
 	const AddProblem = async (newProblem: Problem) => {
+		console.log(newProblem)
 		const { error } = await supabaseClient
 			.from("problem")
 			.insert([newProblem])
+			.single();
 
 		if (error) {
 			console.log(formData)

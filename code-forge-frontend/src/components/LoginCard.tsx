@@ -142,7 +142,11 @@ const LoginCard = () => {
 			localStorage.removeItem('teacher')
 		}
 		removeLocal()
-	}, [])
+
+		return () => {
+			authListener.subscription.unsubscribe();
+		};
+	}, [navigate]);
 
 
 	return (

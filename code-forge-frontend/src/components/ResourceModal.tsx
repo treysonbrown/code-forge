@@ -14,21 +14,20 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useState } from "react"
-import type { Problem, Resource } from '../types'
+import type { Resource } from '../types'
 import { supabaseClient } from "../config/supabase-clients";
 import { Textarea } from "./ui/textarea";
 import { toast } from "react-toastify";
 
 
-const supabase = supabaseClient
-const { data, error } = await supabase.auth.refreshSession()
-const { user } = data
 
+type ResourceModalProps = {
+	onResourceChange: () => void;
+}
 
-const ResourceModal = () => {
+const ResourceModal: React.FC<ResourceModalProps> = ({ onResourceChange }) => {
 
 	const [open, setOpen] = useState<boolean>(false)
-	const [courseID, setCourseId] = useState<Number>()
 	const storedCourseID = JSON.parse(localStorage.getItem('courseID'))
 	const storedTeacher = JSON.parse(localStorage.getItem('teacher'))
 	const [formData, setFormData] = useState<Resource>({
@@ -52,10 +51,10 @@ const ResourceModal = () => {
 				position: "top-center"
 			})
 		} else {
-			console.log("success")
 			toast.success("Added to resources", {
 				position: "top-center"
 			})
+			onResourceChange()
 		}
 	}
 
@@ -76,7 +75,7 @@ const ResourceModal = () => {
 		const new_resource: Resource = {
 			title: formData.title,
 			description: formData.description,
-			link: formData.description,
+			link: formData.link,
 			course_id: storedCourseID
 		}
 
