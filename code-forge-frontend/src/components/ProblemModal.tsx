@@ -21,8 +21,10 @@ import { toast } from "react-toastify";
 
 
 
-
-const NewQuestionDialog = () => {
+type NewQuestionDialogProp = {
+	onQuestionAdded: () => void
+}
+const NewQuestionDialog: React.FC<NewQuestionDialogProp> = ({ onQuestionAdded }) => {
 
 	const [open, setOpen] = useState<boolean>(false)
 	const storedCourseID = JSON.parse(localStorage.getItem('courseID'))
@@ -40,10 +42,8 @@ const NewQuestionDialog = () => {
 		const { error } = await supabaseClient
 			.from("problem")
 			.insert([newProblem])
-			.single();
 
 		if (error) {
-			console.log(error.hint)
 			console.log(formData)
 			toast.error("There was an error creating the problem", {
 				position: "top-center"
@@ -52,6 +52,7 @@ const NewQuestionDialog = () => {
 			toast.success("Problem successfully created.", {
 				position: "top-center"
 			})
+			onQuestionAdded()
 		}
 	}
 
@@ -65,7 +66,6 @@ const NewQuestionDialog = () => {
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
-		console.log(formData)
 		AddProblem(storedCourseID)
 		setOpen(false)
 	}

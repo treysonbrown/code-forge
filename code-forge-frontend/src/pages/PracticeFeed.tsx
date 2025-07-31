@@ -56,7 +56,7 @@ const PracticeFeed: React.FC = () => {
 					}
 				</div>
 				{storedTeacher ? (
-					<NewQuestionDialog />
+					<NewQuestionDialog onQuestionAdded={() => fetchProblems(storedCourseID)} />
 				) : (
 					<></>
 				)

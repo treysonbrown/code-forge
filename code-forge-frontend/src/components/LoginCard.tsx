@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { supabaseClient } from "@/config/supabase-clients"
 import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 type FormData = {
 	email: string;
@@ -25,6 +25,7 @@ const { data, error } = await supabase.auth.refreshSession()
 const { user } = data
 
 const LoginCard = () => {
+	const navigate = useNavigate();
 	const [formData, setFormData] = useState<FormData>({
 		email: '',
 		password: ''
@@ -126,12 +127,21 @@ const LoginCard = () => {
 	}
 
 	useEffect(() => {
-		const removeSession = () => {
+
+		const { data: authListener } = supabase.auth.onAuthStateChange(
+			(event, session) => {
+				if (event === 'SIGNED_IN' && session) {
+					console.log("test")
+					navigate('/')
+				}
+			}
+		);
+
+		const removeLocal = () => {
 			localStorage.removeItem('courseID')
 			localStorage.removeItem('teacher')
-			supabaseClient.auth.initialize
 		}
-		removeSession()
+		removeLocal()
 	}, [])
 
 
