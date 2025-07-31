@@ -73,9 +73,9 @@ const ProblemCard: React.FC<ProblemCardProps> = ({ title, diffuculty = "none", d
 
 	return (
 		<>
-			<button className="flex flex-col justify-center bg-black  p-20 rounded-3xl gap-3 drop-shadow-gradient" onClick={() => { setOpen(true) }}>
-				<h1 className="flex  text-center justify-center font-alegreya  text-base md:text-xl lg:text-2xl text-white font-bold ">{title}</h1>
-				<p className="flex  text-center justify-center font-alegreya  text-base md:text-xl lg:text-2xl text-local-accent font-bold ">{diffuculty}</p>
+			<button className="flex flex-col justify-center bg-black p-20 rounded-3xl gap-3 drop-shadow-[5px_5px_5px_rgba(255,255,255,0.4)]" onClick={() => { setOpen(true) }}>
+				<h1 className="flex text-center justify-center font-alegreya text-base md:text-xl lg:text-2xl text-white font-bold ">{title}</h1>
+				<p className="flex text-center justify-center font-alegreya text-base md:text-xl lg:text-2xl text-local-accent font-bold ">{diffuculty}</p>
 			</button>
 
 			<Dialog open={open}>
