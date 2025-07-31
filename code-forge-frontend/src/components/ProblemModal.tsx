@@ -68,7 +68,7 @@ const NewQuestionDialog: React.FC<NewQuestionDialogProp> = ({ onQuestionAdded })
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
-		AddProblem(storedCourseID)
+		AddProblem(formData)
 		setOpen(false)
 	}
 
