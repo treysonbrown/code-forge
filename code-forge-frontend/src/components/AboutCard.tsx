@@ -8,7 +8,7 @@ type AboutCardProps = {
 
 const AboutCard: React.FC<AboutCardProps> = ({ header, desc }) => {
 	return (
-		<div className="bg-local-background text-white border-2 border-white py-3 px-6 rounded-lg shadow-lg">
+		<div className="bg-local-background text-white border-2 border-white py-3 px-6 rounded-lg shadow-lg ">
 			<div className="-mt-20">
 				<BlueHeader text={header} />
 			</div>
