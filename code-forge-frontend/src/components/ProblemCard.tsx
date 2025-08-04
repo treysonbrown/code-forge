@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { Button } from "@/components/ui/button"
 import {
 	Dialog,
@@ -24,12 +24,15 @@ type ProblemCardProps = {
 	points: number;
 }
 
+const supabase = supabaseClient
+const { data } = await supabase.auth.refreshSession()
+const { user } = data
+
 
 const ProblemCard: React.FC<ProblemCardProps> = ({ title, diffuculty = "none", description, answer, id, points }) => {
 
 	const [open, setOpen] = useState(false)
 	const [userAnswer, setUserAnswer] = useState("")
-	const [updatedPoints, setUpdatedPoints] = useState<Number>()
 
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,17 +41,54 @@ const ProblemCard: React.FC<ProblemCardProps> = ({ title, diffuculty = "none", d
 	};
 
 
-	const updateProblem = async () => {
-		console.log(id)
+	const updateSolved = async () => {
 		const { error } = await supabaseClient
-			.from("problem")
-			.update({ points: updatedPoints })
-			.eq('id', id)
-
+			.from("solved")
+			.insert([{ solved: id, user: user?.email }])
 		if (error) {
-			console.log(error.hint)
+			console.log(error)
+		}
+	}
+
+
+	const addPoints = async () => {
+		const { data } = await supabaseClient
+			.from("student")
+			.select("points")
+			.eq('email', user?.email)
+
+		if (data) {
+			const currentPoints = data[0].points
+			const newPoints: number = Number(points) + Number(currentPoints)
+			const { error } = await supabaseClient
+				.from("student")
+				.update({ points: newPoints })
+				.eq('email', user?.email)
+			if (error) {
+				console.log(error)
+			} else {
+				console.log(newPoints)
+				toast.success("Correct answer!", {
+					position: "top-center"
+				})
+				updateSolved()
+			}
+		}
+	}
+
+
+	const checkSolved = async () => {
+		const { data } = await supabaseClient
+			.from("solved")
+			.select("*")
+			.eq('solved', id)
+		console.log(data)
+		if (data && data?.length > 0) {
+			toast.success("Already Solved this one", {
+				position: "top-center"
+			})
 		} else {
-			console.log("success")
+			addPoints()
 		}
 	}
 
@@ -59,9 +99,8 @@ const ProblemCard: React.FC<ProblemCardProps> = ({ title, diffuculty = "none", d
 		console.log(userAnswer)
 		console.log(answer)
 		if (userAnswer === answer) {
-			toast.success("Correct answer!", {
-				position: "top-center"
-			})
+			checkSolved()
+
 			setOpen(false)
 		} else {
 			toast.error("Wrong answer", {

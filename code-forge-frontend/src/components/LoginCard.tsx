@@ -11,6 +11,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { supabaseClient } from "@/config/supabase-clients"
+import { createClient } from "@supabase/supabase-js"
 import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 
@@ -91,7 +92,6 @@ const LoginCard = () => {
 
 
 			}
-
 		} catch (err) {
 			console.log('No')
 		}
@@ -131,17 +131,11 @@ const LoginCard = () => {
 		const { data: authListener } = supabase.auth.onAuthStateChange(
 			(event, session) => {
 				if (event === 'SIGNED_IN' && session) {
-					console.log("test")
 					navigate('/')
 				}
 			}
 		);
 
-		const removeLocal = () => {
-			localStorage.removeItem('courseID')
-			localStorage.removeItem('teacher')
-		}
-		removeLocal()
 
 		return () => {
 			authListener.subscription.unsubscribe();

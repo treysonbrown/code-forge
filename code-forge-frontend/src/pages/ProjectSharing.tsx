@@ -30,7 +30,7 @@ const ProjectSharing: React.FC = () => {
 
 	useEffect(() => {
 		console.log(storedCourseID)
-		fetchProblems(storedCourseID)
+		fetchProblems()
 	}, [])
 
 
