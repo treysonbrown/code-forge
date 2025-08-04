@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import ProblemCard from "../components/ProblemCard";
 import { supabaseClient } from "../config/supabase-clients";
 import NewQuestionDialog from "@/components/ProblemModal";
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import Header from "../components/Header";
 
 
@@ -22,22 +22,32 @@ type Problem = {
 
 const PracticeFeed: React.FC = () => {
 	const [problems, setProblems] = useState<Problem[]>([])
+	const [errored, setErrored] = useState(false)
 	const storedCourseID = JSON.parse(localStorage.getItem('courseID'))
 	const storedTeacher = JSON.parse(localStorage.getItem('teacher'))
 
 	const fetchProblems = async (courseID: number) => {
-		const { data } = await supabaseClient
+		const { error, data } = await supabaseClient
 			.from('problem')
 			.select('*')
 			.eq('course_id', courseID)
 			.order('id', { ascending: false })
-		setProblems(data)
+		if (data) {
+			setProblems(data)
+
+		} else if (error) {
+			setErrored(true)
+		}
 	}
 
 	useEffect(() => {
 		console.log(storedCourseID)
 		fetchProblems(storedCourseID)
 	}, [])
+
+	if (errored) {
+		toast.error("Error loading problems", { position: "top-center" })
+	}
 
 	return (
 		<div className="mb-10">
