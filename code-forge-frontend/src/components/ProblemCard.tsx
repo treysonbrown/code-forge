@@ -50,13 +50,35 @@ const ProblemCard: React.FC<ProblemCardProps> = ({ title, diffuculty = "none", d
 		}
 	}
 
+	const addTotal = async () => {
+		const { data } = await supabaseClient
+			.from('student')
+			.select('*')
+			.eq('email', user?.email)
+		console.log(data)
+		if (data) {
+			let currentTotal: number = data[0].problems_solved
+			console.log(currentTotal)
+			const newTotal: number = currentTotal + 1
+			const { error } = await supabaseClient
+				.from('student')
+				.update({ problems_solved: newTotal })
+				.eq('email', user?.email)
+			console.log(newTotal)
+			if (error) {
+
+				console.log(error)
+				console.log("went wrong")
+			}
+		}
+	}
+
 
 	const addPoints = async () => {
 		const { data } = await supabaseClient
 			.from("student")
 			.select("points")
 			.eq('email', user?.email)
-
 		if (data) {
 			const currentPoints = data[0].points
 			const newPoints: number = Number(points) + Number(currentPoints)
@@ -71,7 +93,9 @@ const ProblemCard: React.FC<ProblemCardProps> = ({ title, diffuculty = "none", d
 				toast.success("Correct answer!", {
 					position: "top-center"
 				})
-				updateSolved()
+				updateSolved().then(
+					() => addTotal()
+				)
 			}
 		}
 	}
@@ -82,7 +106,6 @@ const ProblemCard: React.FC<ProblemCardProps> = ({ title, diffuculty = "none", d
 			.from("solved")
 			.select("*")
 			.eq('solved', id)
-		console.log(data)
 		if (data && data?.length > 0) {
 			toast.success("Already Solved this one", {
 				position: "top-center"

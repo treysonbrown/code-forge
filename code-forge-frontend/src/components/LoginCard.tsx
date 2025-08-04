@@ -89,15 +89,14 @@ const LoginCard = () => {
 			}
 			if (user) {
 				getRole()
-
-
 			}
 		} catch (err) {
-			console.log('No')
+			console.log(err)
 		}
 	}
 
 	const signIn = async () => {
+
 		const { error } = await supabase.auth.signInWithPassword({
 			email: formData.email,
 			password: formData.password,
@@ -136,6 +135,11 @@ const LoginCard = () => {
 			}
 		);
 
+		const removeLocal = () => {
+			localStorage.removeItem('courseID')
+			localStorage.removeItem('teacher')
+		}
+		removeLocal()
 
 		return () => {
 			authListener.subscription.unsubscribe();

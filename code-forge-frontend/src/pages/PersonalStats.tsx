@@ -30,13 +30,16 @@ const PersonalStats = () => {
 	})
 
 	const studentStats = async (email: string) => {
-		const { data } = await supabase
+		const { data, error } = await supabase
 			.from('student')
 			.select('*')
 			.eq('email', email)
+		console.log(email)
 		if (data && data.length > 0) {
 			console.log(data)
 			setStats(data[0])
+		} else {
+			console.log(error)
 		}
 	}
 
@@ -47,12 +50,16 @@ const PersonalStats = () => {
 			.eq('email', email)
 		if (data && data.length > 0) {
 			console.log(data)
+			console.log(data)
 			setStats(data[0])
+		} else {
+			console.log("error")
 		}
 	}
 
 
 	useEffect(() => {
+		console.log(storedTeacher)
 		const fetchUser = async () => {
 			try {
 				const { data: { user }, error } = await supabase.auth.getUser();
@@ -64,6 +71,7 @@ const PersonalStats = () => {
 					if (!storedTeacher) {
 						studentStats(user.email)
 					} else {
+
 						teacherStats(user.email)
 					}
 				}
