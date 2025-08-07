@@ -4,6 +4,7 @@ import SubHeader from "../components/SubHeader";
 import SubWhiteHeader from "../components/SubWhiteHeader";
 import { useEffect, useState } from "react";
 import SubBlueHeader from "@/components/SubBlueHeader";
+import { toast } from "react-toastify";
 
 const supabase = supabaseClient
 
@@ -22,6 +23,7 @@ type TeacherStatType = {
 const PersonalStats = () => {
 	const storedTeacher = JSON.parse(localStorage.getItem('teacher'))
 
+	const [errored, setErrored] = useState<boolean>(false)
 	const [stats, setStats] = useState<StatType | TeacherStatType | null>({
 		name: "",
 		email: "",
@@ -53,7 +55,7 @@ const PersonalStats = () => {
 			console.log(data)
 			setStats(data[0])
 		} else {
-			console.log("error")
+			setErrored(true)
 		}
 	}
 
@@ -85,6 +87,9 @@ const PersonalStats = () => {
 	}, [])
 
 
+	if (errored) {
+		toast.error("Error loading stats", { position: "top-center" })
+	}
 
 
 

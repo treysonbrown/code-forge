@@ -3,7 +3,7 @@ import Header from "../components/Header";
 import { supabaseClient } from "@/config/supabase-clients";
 import ResourceCard from "../components/ResourceCard";
 import ResourceModal from "@/components/ResourceModal";
-import ToastContainer from "rsuite/esm/toaster/ToastContainer";
+import { toast, ToastContainer } from "react-toastify";
 
 
 
@@ -18,8 +18,7 @@ type ResourceResponse = {
 
 
 const HelpfulResources = () => {
-	const [loading, setLoading] = useState<boolean>(false);
-	const [error, setError] = useState(null);
+	const [errored, setErrored] = useState<boolean>(false)
 	const [resources, setResources] = useState<ResourceResponse[]>([])
 
 	const storedCourseID: any = JSON.parse(localStorage.getItem('courseID'))
@@ -28,20 +27,18 @@ const HelpfulResources = () => {
 
 
 	const fetchResources = async () => {
-		setLoading(true)
-		const { data, error } = await supabaseClient
+		const { data } = await supabaseClient
 			.from('resources')
 			.select('*')
 			.eq('course_id', storedCourseID)
 			.order('id', { ascending: false })
 
-		if (error) {
-			console.log(error)
-		} else {
-			console.log(data)
+		if (data && data.length > 0) {
+			console.log("test")
 			setResources(data)
-			setError(null)
-			setLoading(false)
+
+		} else {
+			setErrored(true)
 		}
 	}
 
@@ -50,49 +47,41 @@ const HelpfulResources = () => {
 
 
 	useEffect(() => {
-		console.log(storedCourseID)
 		fetchResources()
 	}, [])
 
 
-	if (storedTeacher) {
-		return (
-			<div>
-				<ToastContainer />
-				<div>
-					<Header whiteText="HELPFUL" blueText="RESOURCES" />
-					<div className="ml-[5%] mr-[5%] mt-20 mb-20">
-						<div className="flex flex-col gap-5">
-							{
-								resources.map((resource) => {
-									return <ResourceCard title={resource.title} description={resource.description} link={resource.link} />
-								})
-							}
-						</div>
-					</div>
-					<ResourceModal onResourceChange={fetchResources} />
-				</div>
-			</div>
-		)
-	} else if (!storedTeacher) {
-		return (
-			<div>
-				<ToastContainer />
-				<div>
-					<Header whiteText="HELPFUL" blueText="RESOURCES" />
-					<div className="ml-[5%] mr-[5%] mt-20 mb-20">
-						<div className="flex flex-col gap-5">
-							{
-								resources.map((resource) => {
-									return <ResourceCard title={resource.title} description={resource.description} link={resource.link} />
-								})
-							}
-						</div>
-					</div>
-				</div>
-			</div>
-		)
+	if (errored) {
+		toast.error("Error loading resources", { position: "top-center" })
 	}
+
+	return (
+		<>
+			<ToastContainer />
+
+			<div>
+				<div>
+					<Header whiteText="HELPFUL" blueText="RESOURCES" />
+					<div className="ml-[5%] mr-[5%] mt-20 mb-20">
+						<div className="flex flex-col gap-5">
+							{
+								resources.map((resource) => {
+									return <ResourceCard title={resource.title} description={resource.description} link={resource.link} />
+								})
+							}
+						</div>
+					</div>
+				</div>
+				{storedTeacher ? (
+					<ResourceModal onResourceChange={fetchResources} />
+				) : (
+					<></>
+				)
+
+				}
+			</div>
+		</>
+	)
 
 }
 export default HelpfulResources;
